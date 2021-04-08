@@ -20,7 +20,7 @@
         </div>
       </a-layout-content>
       <a-layout-footer style="padding: 0px">
-        <page-footer :link-list="footerLinks" :copyright="copyright" />
+        <page-footer :copyright="copyright" />
       </a-layout-footer>
     </a-layout>
   </a-layout>
@@ -41,7 +41,7 @@ export default {
   components: { Setting, SideMenu, Drawer, PageFooter, AdminHeader },
   data() {
     return {
-      minHeight: window.innerHeight - 64 - 122,
+      minHeight: window.innerHeight - 140.5,
       collapsed: false,
       showSetting: false,
       drawerOpen: false
@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('setting', ['isMobile', 'theme', 'layout', 'footerLinks', 'copyright', 'fixedHeader', 'fixedSideBar',
+    ...mapState('setting', ['isMobile', 'theme', 'layout', 'copyright', 'fixedHeader', 'fixedSideBar',
       'fixedTabs', 'hideSetting', 'multiPage']),
     ...mapGetters('setting', ['firstMenu', 'subMenu', 'menuData']),
     sideMenuWidth() {

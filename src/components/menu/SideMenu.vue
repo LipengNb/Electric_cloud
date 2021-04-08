@@ -2,8 +2,7 @@
   <a-layout-sider v-model="collapsed" :theme="sideTheme" :class="['side-menu', 'beauty-scroll', isMobile ? null : 'shadow']" width="256px" :collapsible="collapsible" :trigger="null">
     <div :class="['logo', theme]">
       <router-link to="/dashboard/workplace">
-        <svg width="60px" height="30" viewBox="0 0 169 141" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <desc>Created with Sketch.</desc>
+        <svg width="60px" height="30" viewBox="0 0 169 141" style="vertical-align: middle" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <defs>
             <linearGradient id="linearGradient-1" x1="54.0428975%" y1="4.39752391%" x2="54.0428975%" y2="108.456714%">
               <stop stop-color="#29CDFF" offset="0%" />

@@ -1,10 +1,5 @@
 <template>
   <div class="footer">
-    <div class="links">
-      <a v-for="(item, index) in linkList" :key="index" target="_blank" :href="item.link ? item.link : 'javascript: void(0)'">
-        <a-icon v-if="item.icon" :type="item.icon" />{{ item.name }}
-      </a>
-    </div>
     <div class="copyright">
       Copyright<a-icon type="copyright" />{{ copyright }}
     </div>
@@ -18,10 +13,6 @@ export default {
     copyright: {
       type: String,
       default: ''
-    },
-    linkList: {
-      type: Array,
-      default: () => []
     }
   }
 }
@@ -29,9 +20,9 @@ export default {
 
 <style lang="less" scoped>
   .footer{
-    padding: 48px 16px 24px;
-    /*margin: 48px 0 24px;*/
+    padding: 24px;
     text-align: center;
+    background-color: #fff;
     .copyright{
       color: @text-color-second;
       font-size: 14px;

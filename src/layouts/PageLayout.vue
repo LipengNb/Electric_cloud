@@ -1,10 +1,10 @@
 <template>
   <div class="page-layout">
-    <page-header ref="pageHeader" :style="`margin-top: ${multiPage ? 0 : -24}px`" :breadcrumb="breadcrumb" :title="pageTitle" :logo="logo" :avatar="avatar">
+    <page-header ref="pageHeader" :style="`margin-top: ${multiPage ? 0 : -24}px`" :title="pageTitle" :logo="logo" :avatar="avatar">
       <slot slot="action" name="action" />
       <slot slot="content" name="headerContent" />
       <div v-if="!this.$slots.headerContent && desc" slot="content">
-        <p>{{ desc }}</p>
+        <!-- <p>{{ desc }}</p> -->
         <div v-if="linkList" class="link">
           <template v-for="(link, index) in linkList">
             <a :key="index" :href="link.href"><a-icon :type="link.icon" />{{ link.title }}</a>
@@ -43,19 +43,6 @@ export default {
     routeName() {
       const route = this.$route
       return this.$t(getI18nKey(route.matched[route.matched.length - 1].path))
-    },
-    breadcrumb() {
-      const page = this.page
-      const breadcrumb = page && page.breadcrumb
-      if (breadcrumb) {
-        const i18nBreadcrumb = []
-        breadcrumb.forEach(item => {
-          i18nBreadcrumb.push(this.$t(item))
-        })
-        return i18nBreadcrumb
-      } else {
-        return this.getRouteBreadcrumb()
-      }
     },
     marginCorrect() {
       return this.multiPage ? 24 : 0
