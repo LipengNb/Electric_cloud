@@ -66,9 +66,10 @@ export default {
     columns: { type: Array, default: () => [] },
     components: { type: Object, default: () => {} },
     dataSource: { type: Array, default: () => [] },
-    defaultExpandAllRows: { type: Array, default: () => [] },
+    defaultExpandAllRows: { type: Boolean, default: false },
     expandedRowKeys: { type: Array, default: () => [] },
-    expandedRowRender: { type: Function, default: () => {} },
+    // eslint-disable-next-line vue/require-default-prop
+    expandedRowRender: [Function],
     expandIcon: { type: Function, default: () => {} },
     expandRowByClick: Boolean,
     expandIconColumnIndex: { type: Number, default: 0 },
@@ -94,7 +95,7 @@ export default {
     customRow: { type: Function, default: () => {} },
     getPopupContainer: { type: Function, default: () => {} },
     transformCellText: { type: Function, default: () => {} },
-    formatConditions: Boolean
+    formatConditions: { type: Boolean, default: false }
   },
   provide() {
     return {

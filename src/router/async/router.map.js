@@ -87,19 +87,6 @@ const routerMap = {
     name: '项目',
     component: () => import('@/pages/list/search/ProjectList')
   },
-  result: {
-    name: '结果页',
-    icon: 'check-circle-o',
-    component: view.page
-  },
-  success: {
-    name: '成功',
-    component: () => import('@/pages/result/Success')
-  },
-  error: {
-    name: '失败',
-    component: () => import('@/pages/result/Error')
-  },
   exception: {
     name: '异常页',
     icon: 'warning',
@@ -120,19 +107,6 @@ const routerMap = {
     name: 'exp500',
     path: '500',
     component: () => import('@/pages/exception/500')
-  },
-  components: {
-    name: '小组件',
-    icon: 'appstore-o',
-    component: view.page
-  },
-  taskCard: {
-    name: '任务卡片',
-    component: () => import('@/pages/components/TaskCard')
-  },
-  palette: {
-    name: '颜色复选框',
-    component: () => import('@/pages/components/Palette')
   }
 }
 export default routerMap

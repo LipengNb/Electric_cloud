@@ -183,7 +183,6 @@ function formatRoutes(routes) {
   })
   formatAuthority(routes)
 }
-
 /**
  * 格式化路由的权限配置
  * @param routes 路由

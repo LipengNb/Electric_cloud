@@ -10,16 +10,6 @@ module.exports = {
       time: '提醒时间',
       type: '任务类型'
     },
-    HK: {
-      input: '請輸入',
-      select: '請選擇',
-      name: '任務名',
-      describe: '任務描述',
-      executor: '執行人',
-      duty: '責任人',
-      time: '提醒時間',
-      type: '任務類型'
-    },
     US: {
       input: 'Please enter',
       select: 'Please select',

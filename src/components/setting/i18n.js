@@ -38,43 +38,6 @@ module.exports = {
       save: '保存配置',
       reset: '重置配置'
     },
-    HK: {
-      theme: {
-        title: '整體風格設置',
-        light: '亮色菜單風格',
-        dark: '暗色菜單風格',
-        night: '深夜模式',
-        color: '主題色'
-      },
-      navigate: {
-        title: '導航設置',
-        side: '側邊導航',
-        head: '頂部導航',
-        content: {
-          title: '內容區域寬度',
-          fluid: '流式',
-          fixed: '定寬'
-        },
-        fixedHeader: '固定Header',
-        fixedSideBar: '固定側邊欄'
-      },
-      other: {
-        title: '其他設置',
-        weekMode: '色弱模式',
-        multiPages: '多頁簽模式',
-        hideSetting: '隱藏設置抽屜'
-      },
-      animate: {
-        title: '頁面切換動畫',
-        disable: '禁用動畫',
-        effect: '動畫效果',
-        direction: '動畫方向'
-      },
-      alert: '拷貝配置后，直接覆蓋文件 src/config/config.js 中的全部內容，然後重啟即可。（注意：僅會拷貝與默認配置不同的項）',
-      copy: '拷貝配置',
-      save: '保存配置',
-      reset: '重置配置'
-    },
     US: {
       theme: {
         title: 'Page Style Setting',

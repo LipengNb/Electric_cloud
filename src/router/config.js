@@ -129,76 +129,6 @@ const options = {
             }
           ]
         },
-        // {
-        //   path: 'result',
-        //   name: '结果页',
-        //   meta: {
-        //     icon: 'check-circle-o'
-        //   },
-        //   component: PageView,
-        //   children: [
-        //     {
-        //       path: 'success',
-        //       name: '成功',
-        //       component: () => import('@/pages/result/Success')
-        //     },
-        //     {
-        //       path: 'error',
-        //       name: '失败',
-        //       component: () => import('@/pages/result/Error')
-        //     }
-        //   ]
-        // },
-        // {
-        //   path: 'exception',
-        //   name: '异常页',
-        //   meta: {
-        //     icon: 'warning'
-        //   },
-        //   component: BlankView,
-        //   children: [
-        //     {
-        //       path: '404',
-        //       name: 'Exp404',
-        //       component: () => import('@/pages/exception/404')
-        //     },
-        //     {
-        //       path: '403',
-        //       name: 'Exp403',
-        //       component: () => import('@/pages/exception/403')
-        //     },
-        //     {
-        //       path: '500',
-        //       name: 'Exp500',
-        //       component: () => import('@/pages/exception/500')
-        //     }
-        //   ]
-        // },
-        // {
-        //   path: 'components',
-        //   name: '内置组件',
-        //   meta: {
-        //     icon: 'appstore-o'
-        //   },
-        //   component: PageView,
-        //   children: [
-        //     {
-        //       path: 'taskCard',
-        //       name: '任务卡片',
-        //       component: () => import('@/pages/components/TaskCard')
-        //     },
-        //     {
-        //       path: 'palette',
-        //       name: '颜色复选框',
-        //       component: () => import('@/pages/components/Palette')
-        //     },
-        //     {
-        //       path: 'table',
-        //       name: '高级表格',
-        //       component: () => import('@/pages/components/table')
-        //     }
-        //   ]
-        // },
         {
           name: '验权表单',
           path: 'auth/form',
@@ -210,14 +140,6 @@ const options = {
           },
           component: () => import('@/pages/form/basic')
         }
-        // {
-        //   name: 'Ant Design Vue',
-        //   path: 'antdv',
-        //   meta: {
-        //     icon: 'ant-design',
-        //     link: 'https://www.antdv.com/docs/vue/introduce-cn/'
-        //   }
-        // },
         // {
         //   name: '使用文档',
         //   path: 'document',

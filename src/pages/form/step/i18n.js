@@ -19,25 +19,6 @@ module.exports = {
       doAgain: '再转一笔',
       bill: '查看账单'
     },
-    HK: {
-      pageDesc: '將一個冗長或用戶不熟悉的表單任務分成多個步驟，指導用戶完成。',
-      input: '請填寫轉賬信息',
-      confirm: '確認轉賬信息',
-      complete: '完成',
-      payment: '付款賬戶',
-      collection: '收款賬戶',
-      alipay: '支付寶',
-      wechat: '微信',
-      collectionName: '收款人姓名',
-      transferAmount: '裝張金額',
-      nextStep: '下一步',
-      preStep: '上一步',
-      submit: '提交',
-      note: '確認轉賬後，現金將直接打入對方賬戶，無法退回。',
-      success: '支付完成',
-      doAgain: '再轉一筆',
-      bill: '查看賬單'
-    },
     US: {
       pageDesc: 'Divide a long or unfamiliar form task into several steps to guide the user to complete it.',
       input: 'Fill transfer information',

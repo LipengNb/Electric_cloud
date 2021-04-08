@@ -47,12 +47,12 @@ export default {
       default: ''
     },
     titleStyle: {
-      type: String,
-      default: ''
+      type: Object,
+      default: () => {}
     },
     iconStyle: {
-      type: String,
-      default: ''
+      type: Object,
+      default: () => {}
     }
   },
   methods: {

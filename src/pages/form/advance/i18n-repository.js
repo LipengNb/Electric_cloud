@@ -10,16 +10,6 @@ module.exports = {
       date: '生效日期',
       type: '仓库类型'
     },
-    HK: {
-      input: '請輸入',
-      select: '請選擇',
-      name: '倉庫名',
-      domain: '倉庫域名',
-      manager: '倉庫管理員',
-      approval: '審批人員',
-      date: '生效日期',
-      type: '倉庫類型'
-    },
     US: {
       input: 'Please enter',
       select: 'Please select',

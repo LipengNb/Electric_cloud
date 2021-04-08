@@ -38,10 +38,6 @@ export default {
         lock: '点击锁定页签头',
         unlock: '点击解除锁定'
       },
-      HK: {
-        lock: '點擊鎖定頁簽頭',
-        unlock: '點擊解除鎖定'
-      },
       US: {
         lock: 'click to lock the tabs head',
         unlock: 'click to unlock'

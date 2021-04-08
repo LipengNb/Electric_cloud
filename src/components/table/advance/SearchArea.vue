@@ -79,8 +79,8 @@ export default {
       default: () => []
     },
     formatConditions: {
-      type: Array,
-      default: () => []
+      type: Boolean,
+      default: false
     }
   },
   inject: ['table'],

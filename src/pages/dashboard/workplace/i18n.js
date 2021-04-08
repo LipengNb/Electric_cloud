@@ -12,18 +12,6 @@ module.exports = {
       team: '团队',
       add: '添加'
     },
-    HK: {
-      project: '項目數',
-      ranking: '團隊排名',
-      visit: '項目訪問',
-      progress: '進行中的項目',
-      all: '全部項目',
-      access: '快速開始/便捷導航',
-      dynamic: '動態',
-      degree: '指數',
-      team: '團隊',
-      add: '添加'
-    },
     US: {
       project: 'Project',
       ranking: 'Ranking',

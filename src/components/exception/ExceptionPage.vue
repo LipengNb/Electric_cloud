@@ -12,10 +12,8 @@
     </div>
   </div>
 </template>
-
 <script>
 import Config from './typeConfig'
-
 export default {
   name: 'ExceptionPage',
   props: {
@@ -24,8 +22,8 @@ export default {
       default: ''
     },
     homeRoute: {
-      type: Object,
-      default: () => {}
+      type: String,
+      default: ''
     }
   },
   data() {

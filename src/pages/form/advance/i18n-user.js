@@ -15,21 +15,6 @@ module.exports = {
         operation: '操作'
       }
     },
-    HK: {
-      add: '添加',
-      delete: '刪除',
-      save: '保存',
-      cancel: '取消',
-      edit: '編輯',
-      deleteConfirm: '是否要刪除此行？',
-      newMember: '新增成員',
-      table: {
-        name: '成員姓名',
-        number: '工號',
-        department: '所屬部門',
-        operation: '操作'
-      }
-    },
     US: {
       add: 'add',
       delete: 'delete',
