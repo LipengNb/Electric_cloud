@@ -26,6 +26,6 @@ module.exports = {
       users: 'Users',
       range: 'Weekly Range',
       introduce: 'Introduce'
-    },
+    }
   }
 }

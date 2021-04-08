@@ -1,5 +1,5 @@
 <template>
-  <a-form @submit="handleSubmit" :form="form" class="form">
+  <a-form :form="form" class="form" @submit="handleSubmit">
     <a-row class="form-row">
       <a-col :lg="6" :md="12" :sm="24">
         <a-form-item :label="$t('name')">
@@ -22,8 +22,8 @@
           :label="$t('executor')"
         >
           <a-select
-            :placeholder="$ta('select|executor')"
             v-decorator="['task.executor', {rules: [{ required: true, message: $ta('select|executor')}]}]"
+            :placeholder="$ta('select|executor')"
           >
             <a-select-option value="黄丽丽">黄丽丽</a-select-option>
             <a-select-option value="李大刀">李大刀</a-select-option>
@@ -35,8 +35,8 @@
       <a-col :lg="6" :md="12" :sm="24">
         <a-form-item :label="$t('duty')">
           <a-select
-            :placeholder="$ta('select|duty')"
             v-decorator="['task.manager', {rules: [{ required: true, message: $ta('select|duty')}]}]"
+            :placeholder="$ta('select|duty')"
           >
             <a-select-option value="王伟">王伟</a-select-option>
             <a-select-option value="李红军">李红军</a-select-option>
@@ -54,8 +54,8 @@
       <a-col :xl="{span: 8, offset: 2}" :lg="{span: 10}" :md="{span: 24}" :sm="24">
         <a-form-item :label="$t('type')">
           <a-select
-            :placeholder="$ta('select|type')"
             v-decorator="['task.type', {rules: [{ required: true, message: $ta('select|type')}]}]"
+            :placeholder="$ta('select|type')"
           >
             <a-select-option value="定时执行">定时执行</a-select-option>
             <a-select-option value="周期执行">周期执行</a-select-option>
@@ -64,7 +64,7 @@
       </a-col>
     </a-row>
     <a-form-item v-if="showSubmit">
-      <a-button htmlType="submit" >Submit</a-button>
+      <a-button html-type="submit">Submit</a-button>
     </a-form-item>
   </a-form>
 </template>
@@ -72,7 +72,12 @@
 <script>
 export default {
   name: 'TaskForm',
-  props: ['showSubmit'],
+  props: {
+    showSubmit: {
+      type: Boolean,
+      default: false
+    }
+  },
   i18n: require('./i18n-task'),
   data() {
     return {
@@ -80,7 +85,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit (e) {
+    handleSubmit(e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {

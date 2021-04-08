@@ -1,11 +1,11 @@
 <template>
   <div style="">
-    <v-chart :forceFit="true" :height="height" :data="data" :scale="scale">
-      <v-tooltip :showTitle="false" dataKey="item*percent" />
+    <v-chart :force-fit="true" :height="height" :data="data" :scale="scale">
+      <v-tooltip :show-title="false" data-key="item*percent" />
       <v-axis />
-      <v-legend dataKey="item" position="right" :offsetX="-140"/>
-      <v-pie position="percent" color="item" :vStyle="pieStyle" :label="labelConfig" />
-      <v-coord type="theta" :radius="0.75" :innerRadius="0.6" />
+      <v-legend data-key="item" position="right" :offset-x="-140" />
+      <v-pie position="percent" color="item" :v-style="pieStyle" :label="labelConfig" />
+      <v-coord type="theta" :radius="0.75" :inner-radius="0.6" />
     </v-chart>
   </div>
 </template>
@@ -37,7 +37,7 @@ dv.transform({
 const data = dv.rows
 export default {
   name: 'SalesData',
-  data () {
+  data() {
     return {
       data,
       scale,

@@ -1,6 +1,6 @@
 <template>
   <div style="text-align: center; margin-top: 48px">
-    <color-checkbox-group :defaultValues="['1', '3', '4']" @change="changeColor" :multiple="true" style="display: inline-block">
+    <color-checkbox-group :default-values="['1', '3', '4']" :multiple="true" style="display: inline-block" @change="changeColor">
       <color-checkbox color="rgb(245, 34, 45)" value="1" />
       <color-checkbox color="rgb(250, 84, 28)" value="2" />
       <color-checkbox color="rgb(250, 173, 20)" value="3" />
@@ -14,8 +14,8 @@
       <color-checkbox color="rgb(0, 0, 256)" value="11" />
       <color-checkbox color="rgb(256, 256, 0)" value="12" />
     </color-checkbox-group>
-    <div></div>
-    <div class="view-color" :style="{backgroundColor: color}"/>
+    <div />
+    <div class="view-color" :style="{backgroundColor: color}" />
   </div>
 </template>
 
@@ -26,17 +26,17 @@ const ColorCheckboxGroup = ColorCheckbox.Group
 
 export default {
   name: 'Palette',
-  data () {
+  components: { ColorCheckbox, ColorCheckboxGroup },
+  data() {
     return {
       color: 'rgb(245, 34, 45)'
     }
   },
-  components: {ColorCheckbox, ColorCheckboxGroup},
   methods: {
-    changeColor (values, colors) {
+    changeColor(values, colors) {
       this.color = this.calculateColor(colors)
     },
-    calculateColor (colors) {
+    calculateColor(colors) {
       let red = 0
       let green = 0
       let blue = 0

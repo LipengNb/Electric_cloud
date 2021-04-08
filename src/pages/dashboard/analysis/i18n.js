@@ -21,7 +21,7 @@ module.exports = {
       ranking: '排行榜',
       all: '全渠道',
       online: '线上',
-      stores: '门店',
+      stores: '门店'
     },
     HK: {
       introduce: '指標說明',
@@ -44,7 +44,7 @@ module.exports = {
       ranking: '排行榜',
       all: '全渠道',
       online: '線上',
-      stores: '門店',
+      stores: '門店'
     },
     US: {
       introduce: 'Introduce',
@@ -67,7 +67,7 @@ module.exports = {
       ranking: 'Ranking',
       all: 'All',
       online: 'Online',
-      stores: 'Stores',
+      stores: 'Stores'
     }
   }
 }

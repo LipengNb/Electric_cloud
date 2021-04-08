@@ -2,13 +2,13 @@
   <div>
     <search-form />
     <a-card :bordered="false">
-      <a-list itemLayout="vertical">
-        <a-list-item :key="n" v-for="n in 10">
+      <a-list item-layout="vertical">
+        <a-list-item v-for="n in 10" :key="n">
           <a-list-item-meta title="Alipay">
             <div slot="description">
-              <a-tag >Ant Design</a-tag>
-              <a-tag >设计语言</a-tag>
-              <a-tag >蚂蚁金服</a-tag>
+              <a-tag>Ant Design</a-tag>
+              <a-tag>设计语言</a-tag>
+              <a-tag>蚂蚁金服</a-tag>
             </div>
           </a-list-item-meta>
           <div class="content">
@@ -36,7 +36,7 @@
 import SearchForm from './SearchForm'
 export default {
   name: 'ArticleList',
-  components: {SearchForm}
+  components: { SearchForm }
 }
 </script>
 

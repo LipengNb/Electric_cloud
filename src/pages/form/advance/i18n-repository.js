@@ -18,7 +18,7 @@ module.exports = {
       manager: '倉庫管理員',
       approval: '審批人員',
       date: '生效日期',
-      type: '倉庫類型',
+      type: '倉庫類型'
     },
     US: {
       input: 'Please enter',
@@ -28,7 +28,7 @@ module.exports = {
       manager: 'Repository Manager',
       approval: 'Approval Person',
       date: 'Effective Date',
-      type: 'Repository Type',
+      type: 'Repository Type'
     }
   }
 }

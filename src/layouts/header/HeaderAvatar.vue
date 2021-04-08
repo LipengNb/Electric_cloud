@@ -1,10 +1,10 @@
 <template>
   <a-dropdown>
     <div class="header-avatar" style="cursor: pointer">
-      <a-avatar class="avatar" size="small" shape="circle" :src="user.avatar"/>
-      <span class="name">{{user.name}}</span>
+      <a-avatar class="avatar" size="small" shape="circle" :src="user.avatar" />
+      <span class="name">{{ user.name }}</span>
     </div>
-    <a-menu :class="['avatar-menu']" slot="overlay">
+    <a-menu slot="overlay" :class="['avatar-menu']">
       <a-menu-item>
         <a-icon type="user" />
         <span>个人中心</span>
@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import {logout} from '@/services/user'
+import { mapGetters } from 'vuex'
+import { logout } from '@/services/user'
 
 export default {
   name: 'HeaderAvatar',
   computed: {
-    ...mapGetters('account', ['user']),
+    ...mapGetters('account', ['user'])
   },
   methods: {
     logout() {

@@ -1,12 +1,12 @@
 <template>
   <div class="footer">
     <div class="links">
-      <a target="_blank" :key="index" :href="item.link ? item.link : 'javascript: void(0)'" v-for="(item, index) in linkList">
-        <a-icon v-if="item.icon" :type="item.icon"/>{{item.name}}
+      <a v-for="(item, index) in linkList" :key="index" target="_blank" :href="item.link ? item.link : 'javascript: void(0)'">
+        <a-icon v-if="item.icon" :type="item.icon" />{{ item.name }}
       </a>
     </div>
     <div class="copyright">
-      Copyright<a-icon type="copyright" />{{copyright}}
+      Copyright<a-icon type="copyright" />{{ copyright }}
     </div>
   </div>
 </template>
@@ -14,7 +14,16 @@
 <script>
 export default {
   name: 'PageFooter',
-  props: ['copyright', 'linkList']
+  props: {
+    copyright: {
+      type: String,
+      default: ''
+    },
+    linkList: {
+      type: Array,
+      default: () => []
+    }
+  }
 }
 </script>
 

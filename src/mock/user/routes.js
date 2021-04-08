@@ -1,14 +1,14 @@
 import Mock from 'mockjs'
 
 Mock.mock(`${process.env.VUE_APP_API_BASE_URL}/routes`, 'get', () => {
-  let result = {}
+  const result = {}
   result.code = 0
   result.data = [{
     router: 'root',
     children: [
       {
         router: 'dashboard',
-        children: ['workplace', 'analysis'],
+        children: ['workplace', 'analysis']
       },
       {
         router: 'form',

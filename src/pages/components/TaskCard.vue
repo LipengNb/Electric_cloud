@@ -1,13 +1,13 @@
 <template>
   <div style="display: flex">
     <task-group class="task-group" title="ToDo" group="task">
-      <task-item :key="index" v-for="(item, index) in todoList" :content="item" />
+      <task-item v-for="(item, index) in todoList" :key="index" :content="item" />
     </task-group>
     <task-group class="task-group" title="In Progress" group="task">
-      <task-item :key="index" v-for="(item, index) in inproList" :content="item" />
+      <task-item v-for="(item, index) in inproList" :key="index" :content="item" />
     </task-group>
     <task-group class="task-group" title="Done" group="task">
-      <task-item :key="index" v-for="(item, index) in doneList" :content="item" />
+      <task-item v-for="(item, index) in doneList" :key="index" :content="item" />
     </task-group>
   </div>
 </template>
@@ -20,8 +20,8 @@ const inproList = ['任务七', '任务八', '任务九', '任务十', '任务�
 const doneList = ['任务十三', '任务十四', '任务十五', '任务十六', '任务十七', '任务十八']
 export default {
   name: 'TaskCard',
-  components: {TaskItem, TaskGroup},
-  data () {
+  components: { TaskItem, TaskGroup },
+  data() {
     return {
       todoList,
       inproList,

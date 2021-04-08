@@ -1,14 +1,27 @@
 <template>
   <div class="head-info">
-    <span>{{title}}</span>
-    <p>{{content}}</p>
+    <span>{{ title }}</span>
+    <p>{{ content }}</p>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HeadInfo',
-  props: ['title', 'content', 'bordered']
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    content: {
+      type: String,
+      default: ''
+    },
+    bordered: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 

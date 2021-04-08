@@ -1,6 +1,6 @@
 <template>
   <page-layout title="单号：234231029431" logo="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png">
-    <detail-list size="small" :col="2" slot="headerContent">
+    <detail-list slot="headerContent" size="small" :col="2">
       <detail-list-item term="创建人">曲丽丽</detail-list-item>
       <detail-list-item term="订购产品">XX服务</detail-list-item>
       <detail-list-item term="创建时间">2018-08-07</detail-list-item>
@@ -16,28 +16,26 @@
       <a-button-group style="margin-right: 8px;">
         <a-button>操作</a-button>
         <a-button>操作</a-button>
-        <a-button><a-icon type="ellipsis"/></a-button>
+        <a-button><a-icon type="ellipsis" /></a-button>
       </a-button-group>
-      <a-button type="primary" >主操作</a-button>
+      <a-button type="primary">主操作</a-button>
     </template>
     <a-card :bordered="false" title="流程进度">
       <a-steps :current="1" progress-dot :direction="isMobile ? 'vertical' : 'horizontal'">
         <a-step title="创建项目">
-          <a-step-item-group :align="isMobile ? 'left' : 'center'" slot="description">
-            <a-step-item link="/dashboard/workplace" title="曲丽丽" icon="dingding-o"/>
-            <a-step-item title="2016-12-12 12:32"/>
+          <a-step-item-group slot="description" :align="isMobile ? 'left' : 'center'">
+            <a-step-item link="/dashboard/workplace" title="曲丽丽" icon="dingding-o" />
+            <a-step-item title="2016-12-12 12:32" />
           </a-step-item-group>
         </a-step>
         <a-step title="部门初审">
-          <a-step-item-group :align="isMobile ? 'left' : 'center'" slot="description">
+          <a-step-item-group slot="description" :align="isMobile ? 'left' : 'center'">
             <a-step-item link="/form/step" title="周毛毛" icon="dingding-o" />
-            <a-step-item link="/result/success" title="催一下" icon="bell"/>
+            <a-step-item link="/result/success" title="催一下" icon="bell" />
           </a-step-item-group>
         </a-step>
-        <a-step title="财务复核">
-        </a-step>
-        <a-step title="完成">
-        </a-step>
+        <a-step title="财务复核" />
+        <a-step title="完成" />
       </a-steps>
     </a-card>
     <a-card style="margin-top: 24px" :bordered="false" title="用户信息">
@@ -51,10 +49,10 @@
       <detail-list title="信息组">
         <detail-list-item term="某某数据">725</detail-list-item>
         <detail-list-item term="该数据更新时间">2018-08-08</detail-list-item>
-        <detail-list-item >&nbsp;</detail-list-item>
+        <detail-list-item>&nbsp;</detail-list-item>
         <detail-list-item term="某某数据">725</detail-list-item>
         <detail-list-item term="该数据更新时间">2018-08-08</detail-list-item>
-        <detail-list-item >&nbsp;</detail-list-item>
+        <detail-list-item>&nbsp;</detail-list-item>
       </detail-list>
       <a-card type="inner" title="多层信息组">
         <detail-list title="组名称" size="small">
@@ -83,31 +81,31 @@
       </a-card>
     </a-card>
     <a-card style="margin-top: 24px" :bordered="false" title="用户近半年来电记录">
-      <a-list></a-list>
+      <a-list />
     </a-card>
     <a-card
       style="margin-top: 24px"
       :bordered="false"
-      :tabList="tabList"
-      :activeTabKey="activeTabKey"
-      @tabChange="(key) => {this.activeTabKey = key}"
+      :tab-list="tabList"
+      :active-tab-key="activeTabKey"
+      @tabChange="(key) => { activeTabKey = key }"
     >
       <a-table
         v-if="activeTabKey === '1'"
         :columns="operationColumns"
-        :dataSource="operation1"
+        :data-source="operation1"
         :pagination="false"
       />
       <a-table
         v-if="activeTabKey === '2'"
         :columns="operationColumns"
-        :dataSource="operation2"
+        :data-source="operation2"
         :pagination="false"
       />
       <a-table
         v-if="activeTabKey === '3'"
         :columns="operationColumns"
-        :dataSource="operation3"
+        :data-source="operation3"
         :pagination="false"
       />
     </a-card>
@@ -118,10 +116,9 @@
 import PageLayout from '@/layouts/PageLayout'
 import DetailList from '@/components/tool/DetailList'
 import AStepItem from '@/components/tool/AStepItem'
-import {operation1, operation2, operation3, operationColumns} from '@/mock/common/tableData'
-import {mapState} from 'vuex'
-import HeadInfo from '@/components/tool/HeadInfo';
-
+import { operation1, operation2, operation3, operationColumns } from '@/mock/common/tableData'
+import { mapState } from 'vuex'
+import HeadInfo from '@/components/tool/HeadInfo'
 
 const DetailListItem = DetailList.Item
 const AStepItemGroup = AStepItem.Group
@@ -143,8 +140,8 @@ const tabList = [
 
 export default {
   name: 'AdvancedDetail',
-  components: {HeadInfo, AStepItemGroup, AStepItem, DetailListItem, DetailList, PageLayout},
-  data () {
+  components: { HeadInfo, AStepItemGroup, AStepItem, DetailListItem, DetailList, PageLayout },
+  data() {
     return {
       tabList,
       operationColumns,
@@ -158,10 +155,10 @@ export default {
     ...mapState('setting', ['isMobile'])
   },
   methods: {
-    onTabChange (key) {
+    onTabChange(key) {
       console.log(key)
     }
-  },
+  }
 }
 </script>
 

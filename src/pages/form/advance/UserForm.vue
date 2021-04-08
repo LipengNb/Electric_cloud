@@ -1,46 +1,46 @@
 <template>
-  <form :autoFormCreate="(form) => this.form = form">
+  <form :autoFormCreate="(form) => form = form">
     <a-table
       :columns="dataColumns"
-      :dataSource="dataSource"
+      :data-source="dataSource"
       :pagination="false"
     >
-      <template  v-for="(col, i) in ['name', 'number', 'department']" :slot="col" slot-scope="text, record">
-          <a-input
-            :key="col"
-            v-if="record.editable"
-            style="margin: -5px 0"
-            :value="text"
-            :placeholder="columns[i].title"
-            @change="e => handleChange(e.target.value, record.key, col)"
-          />
-          <template v-else>{{text}}</template>
+      <template v-for="(col, i) in ['name', 'number', 'department']" :slot="col" slot-scope="text, record">
+        <a-input
+          v-if="record.editable"
+          :key="col"
+          style="margin: -5px 0"
+          :value="text"
+          :placeholder="columns[i].title"
+          @change="e => handleChange(e.target.value, record.key, col)"
+        />
+        <template v-else>{{ text }}</template>
       </template>
       <template slot="operation" slot-scope="text, record">
         <template v-if="record.editable">
           <span v-if="record.isNew">
-            <a @click="saveRow(record.key)">{{$t('add')}}</a>
+            <a @click="saveRow(record.key)">{{ $t('add') }}</a>
             <a-divider type="vertical" />
             <a-popconfirm :title="$t('deleteConfirm')" @confirm="remove(record.key)">
-              <a>{{$t('delete')}}</a>
+              <a>{{ $t('delete') }}</a>
             </a-popconfirm>
           </span>
-            <span v-else>
-            <a @click="saveRow(record.key)">{{$t('save')}}</a>
+          <span v-else>
+            <a @click="saveRow(record.key)">{{ $t('save') }}</a>
             <a-divider type="vertical" />
-            <a @click="cancle(record.key)">{{$t('cancel')}}</a>
+            <a @click="cancle(record.key)">{{ $t('cancel') }}</a>
           </span>
         </template>
         <span v-else>
-          <a @click="toggle(record.key)">{{$t('edit')}}</a>
+          <a @click="toggle(record.key)">{{ $t('edit') }}</a>
           <a-divider type="vertical" />
           <a-popconfirm :title="$t('deleteConfirm')" @confirm="remove(record.key)">
-            <a>{{$t('delete')}}</a>
+            <a>{{ $t('delete') }}</a>
           </a-popconfirm>
         </span>
       </template>
     </a-table>
-    <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="newMember">{{$t('newMember')}}</a-button>
+    <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="newMember">{{ $t('newMember') }}</a-button>
   </form>
 </template>
 
@@ -101,7 +101,7 @@ const dataSource = [
 export default {
   name: 'UserForm',
   i18n: require('./i18n-user'),
-  data () {
+  data() {
     return {
       columns,
       dataSource
@@ -116,10 +116,10 @@ export default {
     }
   },
   methods: {
-    handleSubmit (e) {
+    handleSubmit(e) {
       e.preventDefault()
     },
-    newMember () {
+    newMember() {
       this.dataSource.push({
         key: this.dataSource.length + 1,
         name: '',
@@ -129,28 +129,28 @@ export default {
         isNew: true
       })
     },
-    remove (key) {
+    remove(key) {
       const newData = this.dataSource.filter(item => item.key !== key)
       this.dataSource = newData
     },
-    saveRow (key) {
-      let target = this.dataSource.filter(item => item.key === key)[0]
+    saveRow(key) {
+      const target = this.dataSource.filter(item => item.key === key)[0]
       target.editable = false
       target.isNew = false
     },
-    toggle (key) {
-      let target = this.dataSource.filter(item => item.key === key)[0]
+    toggle(key) {
+      const target = this.dataSource.filter(item => item.key === key)[0]
       target.editable = !target.editable
     },
-    getRowByKey (key, newData) {
+    getRowByKey(key, newData) {
       const data = this.dataSource
       return (newData || data).filter(item => item.key === key)[0]
     },
-    cancle (key) {
-      let target = this.dataSource.filter(item => item.key === key)[0]
+    cancle(key) {
+      const target = this.dataSource.filter(item => item.key === key)[0]
       target.editable = false
     },
-    handleChange (value, key, column) {
+    handleChange(value, key, column) {
       const newData = [...this.dataSource]
       const target = newData.filter(item => key === item.key)[0]
       if (target) {

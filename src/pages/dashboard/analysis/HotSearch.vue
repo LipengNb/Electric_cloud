@@ -4,7 +4,7 @@
       <a-col style="padding: 0 34px; margin-bottom: 24px" :sm="12" :xs="24">
         <div class="num-info">
           <span class="title">
-            {{$t('search')}}
+            {{ $t('search') }}
             <a-tooltip :title="$t('introduce')">
               <a-icon type="info-circle" style="font-size: 14px; margin-left: 8px" />
             </a-tooltip>
@@ -19,7 +19,7 @@
       <a-col style="padding: 0 34px; margin-bottom: 24px" :sm="12" :xs="24">
         <div class="num-info">
           <span class="title">
-            {{$t('capita')}}
+            {{ $t('capita') }}
             <a-tooltip :title="$t('introduce')">
               <a-icon type="info-circle" style="font-size: 14px; margin-left: 8px" />
             </a-tooltip>
@@ -33,14 +33,14 @@
       </a-col>
     </a-row>
     <a-table
-      :dataSource="searchData"
+      :data-source="searchData"
       :columns="tableColumns"
       :pagination="{style: { marginBottom: 0 }, pageSize: 5}"
       size="small"
-      rowKey="index"
+      row-key="index"
     >
-      <a href="#/" slot="keyword" slot-scope="text">{{text}}</a>
-      <span slot="rang" slot-scope="text">{{text}} %<a-icon type="caret-up" /> </span>
+      <a slot="keyword" slot-scope="text" href="#/">{{ text }}</a>
+      <span slot="rang" slot-scope="text">{{ text }} %<a-icon type="caret-up" /> </span>
     </a-table>
   </div>
 </template>
@@ -67,7 +67,7 @@ const columns = [
   {
     dataIndex: 'keyword',
     key: 'keyword',
-    scopedSlots: {customRender: 'keyword'}
+    scopedSlots: { customRender: 'keyword' }
   },
   {
     dataIndex: 'count',
@@ -78,15 +78,15 @@ const columns = [
     title: '周涨幅',
     dataIndex: 'range',
     key: 'range',
-    scopedSlots: {customRender: 'rang'}
+    scopedSlots: { customRender: 'rang' }
   }
 ]
 
 export default {
   name: 'HotSearch',
-  components: {MiniArea},
+  components: { MiniArea },
   i18n: require('./i18n-search'),
-  data () {
+  data() {
     return {
       searchData,
       columns
@@ -94,9 +94,9 @@ export default {
   },
   computed: {
     tableColumns() {
-      let columns = this.columns
+      const columns = this.columns
       return columns.map(item => {
-       item.title = this.$t(item.key)
+        item.title = this.$t(item.key)
         return item
       })
     }

@@ -1,6 +1,6 @@
 import Mock from 'mockjs'
 import '@/mock/extend'
-import {parseUrlParams} from '@/utils/request'
+import { parseUrlParams } from '@/utils/request'
 
 const current = new Date().getTime()
 
@@ -17,16 +17,18 @@ const goodsList = Mock.mock({
   }]
 })
 
-Mock.mock(RegExp(`${process.env.VUE_APP_API_BASE_URL}/goods` + '.*'),'get', ({url}) => {
+Mock.mock(RegExp(`${process.env.VUE_APP_API_BASE_URL}/goods` + '.*'), 'get', ({ url }) => {
   const params = parseUrlParams(decodeURI(url))
-  let {page, pageSize} = params
+  let { page, pageSize } = params
+  // eslint-disable-next-line no-eval
   page = eval(page) - 1 || 0
+  // eslint-disable-next-line no-eval
   pageSize = eval(pageSize) || 10
   delete params.page
   delete params.pageSize
   let result = goodsList.list.filter(item => {
-    for (let [key, value] of Object.entries(params)) {
-      if (item[key] != value) {
+    for (const [key, value] of Object.entries(params)) {
+      if (item[key] !== value) {
         return false
       }
     }
@@ -64,13 +66,13 @@ const columnsConfig = [
     searchAble: true,
     dataIndex: 'status',
     dataType: 'select',
-    slots: {title: 'statusTitle'},
-    scopedSlots: {customRender: 'status'},
+    slots: { title: 'statusTitle' },
+    scopedSlots: { customRender: 'status' },
     search: {
       selectOptions: [
-        {title: '已下单', value: 1},
-        {title: '已付款', value: 2},
-        {title: '已审核', value: 3},
+        { title: '已下单', value: 1 },
+        { title: '已付款', value: 2 },
+        { title: '已审核', value: 3 }
         // {title: '已发货', value: 4}
       ]
     }
@@ -80,7 +82,7 @@ const columnsConfig = [
     searchAble: true,
     dataIndex: 'send',
     dataType: 'boolean',
-    scopedSlots: {customRender: 'send'}
+    scopedSlots: { customRender: 'send' }
   },
   {
     title: '发货时间',
@@ -97,8 +99,8 @@ const columnsConfig = [
   {
     title: '审核时间',
     dataIndex: 'auditTime',
-    dataType: 'time',
-  },
+    dataType: 'time'
+  }
 ]
 
 Mock.mock(`${process.env.VUE_APP_API_BASE_URL}/columns`, 'get', () => {

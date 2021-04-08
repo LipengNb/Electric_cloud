@@ -1,28 +1,29 @@
 <template>
-  <a-form @submit="handleSubmit" :form="form" class="form">
+  <a-form :form="form" class="form" @submit="handleSubmit">
     <a-row class="form-row">
       <a-col :lg="6" :md="12" :sm="24">
         <a-form-item :label="$t('name')">
           <a-input
-            :placeholder="$ta('input|name')"
             v-decorator="['repository.name', {rules: [{ required: true, message: $ta('input|name'), whitespace: true}]}]"
+            :placeholder="$ta('input|name')"
           />
         </a-form-item>
       </a-col>
       <a-col :xl="{span: 6, offset: 2}" :lg="{span: 8}" :md="{span: 12}" :sm="24">
         <a-form-item :label="$t('domain')">
           <a-input
-            addonBefore="http://" addonAfter=".github.io"
-            :placeholder="$ta('input|domain')"
             v-decorator="['repository.domain', {rules: [{ required: true, message: $ta('input|domain'), whitespace: true}, {validator: validate}]}]"
+            addon-before="http://"
+            addon-after=".github.io"
+            :placeholder="$ta('input|domain')"
           />
         </a-form-item>
       </a-col>
       <a-col :xl="{span: 8, offset: 2}" :lg="{span: 10}" :md="{span: 24}" :sm="24">
         <a-form-item :label="$t('manager')">
           <a-select
-            :placeholder="$ta('select|manager')"
             v-decorator="['repository.manager', {rules: [{ required: true, message: $ta('select|manager')}]}]"
+            :placeholder="$ta('select|manager')"
           >
             <a-select-option value="王同学">王同学</a-select-option>
             <a-select-option value="李同学">李同学</a-select-option>
@@ -35,8 +36,8 @@
       <a-col :lg="6" :md="12" :sm="24">
         <a-form-item :label="$t('approval')">
           <a-select
-            :placeholder="$ta('select|approval')"
             v-decorator="['repository.auditor', {rules: [{ required: true, message: $ta('select|approval')}]}]"
+            :placeholder="$ta('select|approval')"
           >
             <a-select-option value="王晓丽">王晓丽</a-select-option>
             <a-select-option value="李军">李军</a-select-option>
@@ -46,16 +47,16 @@
       <a-col :xl="{span: 6, offset: 2}" :lg="{span: 8}" :md="{span: 12}" :sm="24">
         <a-form-item :label="$t('date')">
           <a-range-picker
-            style="width: 100%"
             v-decorator="['repository.effectiveDate', {rules: [{ required: true, message: $ta('select|date')}]}]"
+            style="width: 100%"
           />
         </a-form-item>
       </a-col>
       <a-col :xl="{span: 8, offset: 2}" :lg="{span: 10}" :md="{span: 24}" :sm="24">
         <a-form-item :label="$t('type')">
           <a-select
-            :placeholder="$ta('select|type')"
             v-decorator="['repository.type', {rules: [{ required: true, message: $ta('select|type')}]}]"
+            :placeholder="$ta('select|type')"
           >
             <a-select-option value="公开">公开</a-select-option>
             <a-select-option value="私密">私密</a-select-option>
@@ -64,7 +65,7 @@
       </a-col>
     </a-row>
     <a-form-item v-if="showSubmit">
-      <a-button htmlType="submit" >Submit</a-button>
+      <a-button html-type="submit">Submit</a-button>
     </a-form-item>
   </a-form>
 </template>
@@ -72,7 +73,12 @@
 <script>
 export default {
   name: 'RepositoryForm',
-  props: ['showSubmit'],
+  props: {
+    showSubmit: {
+      type: Boolean,
+      default: false
+    }
+  },
   i18n: require('./i18n-repository'),
   data() {
     return {
@@ -80,7 +86,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit (e) {
+    handleSubmit(e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -88,7 +94,7 @@ export default {
         }
       })
     },
-    validate (rule, value, f) {
+    validate(rule, value, f) {
       if (value !== undefined && value !== 'iczer') {
         f('输入\'iczer\'试下？')
       }

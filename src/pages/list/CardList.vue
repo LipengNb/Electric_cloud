@@ -2,7 +2,7 @@
   <div class="card-list">
     <a-list
       :grid="{gutter: 24, lg: 3, md: 2, sm: 1, xs: 1}"
-      :dataSource="dataSource"
+      :data-source="dataSource"
     >
       <a-list-item slot="renderItem" slot-scope="item">
         <template v-if="item.add">
@@ -12,10 +12,10 @@
         </template>
         <template v-else>
           <a-card :hoverable="true">
-            <a-card-meta >
-              <div style="margin-bottom: 3px" slot="title">{{item.title}}</div>
-              <a-avatar class="card-avatar" slot="avatar" :src="item.avatar" size="large" />
-              <div class="meta-content" slot="description">{{item.content}}</div>
+            <a-card-meta>
+              <div slot="title" style="margin-bottom: 3px">{{ item.title }}</div>
+              <a-avatar slot="avatar" class="card-avatar" :src="item.avatar" size="large" />
+              <div slot="description" class="meta-content">{{ item.content }}</div>
             </a-card-meta>
             <a slot="actions">操作一</a>
             <a slot="actions">操作一</a>
@@ -41,13 +41,13 @@ for (let i = 0; i < 11; i++) {
 
 export default {
   name: 'CardList',
-  data () {
+  data() {
     return {
       desc: '段落示意：蚂蚁金服务设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态， 提供跨越设计与开发的体验解决方案。',
       linkList: [
-        {icon: 'rocket', href: '/#/', title: '快速开始'},
-        {icon: 'info-circle-o', href: '/#/', title: '产品简介'},
-        {icon: 'file-text', href: '/#/', title: '产品文档'}
+        { icon: 'rocket', href: '/#/', title: '快速开始' },
+        { icon: 'info-circle-o', href: '/#/', title: '产品简介' },
+        { icon: 'file-text', href: '/#/', title: '产品文档' }
       ],
       extraImage: 'https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png',
       dataSource

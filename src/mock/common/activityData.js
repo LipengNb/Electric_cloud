@@ -1,4 +1,4 @@
-import {users, groups} from './index'
+import { users, groups } from './index'
 
 const events = [
   {
@@ -17,7 +17,7 @@ const events = [
 
 const activities = users.map((user, index) => {
   return {
-    user: Object.assign({}, user, {group: groups[user.groupId]}),
+    user: Object.assign({}, user, { group: groups[user.groupId] }),
     activity: events[index % events.length],
     template: ''
   }
@@ -29,4 +29,4 @@ const templates = [
   (user, activity) => { return `${user.name} 将 <a >${activity.event}</a> 更新至已发布状态` }
 ]
 
-export {activities, templates}
+export { activities, templates }

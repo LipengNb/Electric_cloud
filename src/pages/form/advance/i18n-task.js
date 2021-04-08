@@ -8,7 +8,7 @@ module.exports = {
       executor: '执行人',
       duty: '责任人',
       time: '提醒时间',
-      type: '任务类型',
+      type: '任务类型'
     },
     HK: {
       input: '請輸入',
@@ -18,7 +18,7 @@ module.exports = {
       executor: '執行人',
       duty: '責任人',
       time: '提醒時間',
-      type: '任務類型',
+      type: '任務類型'
     },
     US: {
       input: 'Please enter',
@@ -28,7 +28,7 @@ module.exports = {
       executor: 'Executor',
       duty: 'Duty Person',
       time: 'Reminder Time',
-      type: 'Task Type',
+      type: 'Task Type'
     }
   }
 }

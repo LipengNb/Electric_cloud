@@ -6,9 +6,9 @@
       <a-step :title="$t('complete')" />
     </a-steps>
     <div class="content">
-      <step1 v-if="current === 0" @nextStep="nextStep"></step1>
-      <step2 v-if="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
-      <step3 v-if="current === 2" @prevStep="prevStep" @finish="finish"></step3>
+      <step1 v-if="current === 0" @nextStep="nextStep" />
+      <step2 v-if="current === 1" @nextStep="nextStep" @prevStep="prevStep" />
+      <step3 v-if="current === 2" @prevStep="prevStep" @finish="finish" />
     </div>
   </a-card>
 </template>
@@ -21,8 +21,8 @@ import Step3 from './Step3'
 export default {
   name: 'StepForm',
   i18n: require('./i18n'),
-  components: {Step1, Step2, Step3},
-  data () {
+  components: { Step1, Step2, Step3 },
+  data() {
     return {
       current: 0
     }
@@ -33,17 +33,17 @@ export default {
     }
   },
   methods: {
-    nextStep () {
+    nextStep() {
       if (this.current < 2) {
         this.current += 1
       }
     },
-    prevStep () {
+    prevStep() {
       if (this.current > 0) {
         this.current -= 1
       }
     },
-    finish () {
+    finish() {
       this.current = 0
     }
   }

@@ -12,7 +12,7 @@ module.exports = {
         name: '成员姓名',
         number: '工号',
         department: '所属部门',
-        operation: '操作',
+        operation: '操作'
       }
     },
     HK: {
@@ -27,7 +27,7 @@ module.exports = {
         name: '成員姓名',
         number: '工號',
         department: '所屬部門',
-        operation: '操作',
+        operation: '操作'
       }
     },
     US: {
@@ -42,7 +42,7 @@ module.exports = {
         name: 'Member Name',
         number: 'Job Number',
         department: 'Department',
-        operation: 'Operation',
+        operation: 'Operation'
       }
     }
   }

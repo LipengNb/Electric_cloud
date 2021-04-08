@@ -1,30 +1,30 @@
 <template>
-    <div>
-      <div :class="['search-head', layout, pageWidth]">
-        <div class="search-input">
-          <a-input-search class="search-ipt" style="width: 522px" placeholder="请输入..." size="large" enterButton="搜索" />
-        </div>
-        <div style="padding: 0 24px">
-          <a-tabs :tabBarStyle="{margin: 0}" @change="navigate" :activeKey="activeKey">
-            <a-tab-pane tab="文章" key="1"></a-tab-pane>
-            <a-tab-pane tab="应用" key="2"></a-tab-pane>
-            <a-tab-pane tab="项目" key="3"></a-tab-pane>
-          </a-tabs>
-        </div>
+  <div>
+    <div :class="['search-head', layout, pageWidth]">
+      <div class="search-input">
+        <a-input-search class="search-ipt" style="width: 522px" placeholder="请输入..." size="large" enter-button="搜索" />
       </div>
-      <div class="search-content">
-        <router-view />
+      <div style="padding: 0 24px">
+        <a-tabs :tab-bar-style="{margin: 0}" :active-key="activeKey" @change="navigate">
+          <a-tab-pane key="1" tab="文章" />
+          <a-tab-pane key="2" tab="应用" />
+          <a-tab-pane key="3" tab="项目" />
+        </a-tabs>
       </div>
     </div>
+    <div class="search-content">
+      <router-view />
+    </div>
+  </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'SearchLayout',
   computed: {
     ...mapState('setting', ['layout', 'pageWidth']),
-    activeKey () {
+    activeKey() {
       switch (this.$route.path) {
         case '/list/search/article':
           return '1'
@@ -38,7 +38,7 @@ export default {
     }
   },
   methods: {
-    navigate (key) {
+    navigate(key) {
       switch (key) {
         case '1':
           this.$router.push('/list/search/article')

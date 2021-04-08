@@ -2,12 +2,12 @@
   <div>
     <search-form />
     <a-list
-      :grid='{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }'
+      :grid="{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }"
       style="margin: 0 -8px"
     >
-      <a-list-item :key="n" v-for="n in 8" style="padding: 0 8px">
+      <a-list-item v-for="n in 8" :key="n" style="padding: 0 8px">
         <a-card>
-          <img slot="cover" src="https://gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png" height="154"/>
+          <img slot="cover" src="https://gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png" height="154">
           <a-card-meta title="Ant Design">
             <div slot="description">
               城镇中有那么多的酒馆，她却偏偏走进了我的酒馆
@@ -35,7 +35,7 @@ const AvatarListItem = AvatarList.Item
 
 export default {
   name: 'ProjectList',
-  components: {AvatarListItem, AvatarList, SearchForm}
+  components: { AvatarListItem, AvatarList, SearchForm }
 }
 </script>
 

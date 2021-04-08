@@ -26,8 +26,9 @@
       <form-row label="owner" style="padding-bottom: 11px">
         <a-form-item>
           <a-select
-            mode="multiple" style="max-width: 286px"
             v-decorator="['owner', {initialValue: ['1', '2']}]"
+            mode="multiple"
+            style="max-width: 286px"
           >
             <a-select-option value="3">我自己</a-select-option>
             <a-select-option value="1">吴家豪</a-select-option>
@@ -40,7 +41,7 @@
       <form-row label="其他选项">
         <a-row>
           <a-col :span="8">
-            <a-form-item label="活跃用户" :labelCol="{span: 6}" :wrapperCol="{span: 12}">
+            <a-form-item label="活跃用户" :label-col="{span: 6}" :wrapper-col="{span: 12}">
               <a-select placeholder="不限">
                 <a-select-option value="1">周星星</a-select-option>
               </a-select>
@@ -49,8 +50,8 @@
           <a-col :span="8">
             <a-form-item
               label="好评度"
-              :labelCol="{span: 6}"
-              :wrapperCol="{span: 12}"
+              :label-col="{span: 6}"
+              :wrapper-col="{span: 12}"
             >
               <a-select placeholder="不限">
                 <a-select-option value="1">优秀</a-select-option>
@@ -71,14 +72,14 @@ const TagSelectOption = TagSelect.Option
 
 export default {
   name: 'SearchForm',
-  components: {FormRow, TagSelectOption, TagSelect},
+  components: { FormRow, TagSelectOption, TagSelect },
   data() {
     return {
       form: this.$form.createForm(this)
     }
   },
   methods: {
-    lookMyself () {
+    lookMyself() {
       this.form.setFieldsValue({
         owner: '3'
       })

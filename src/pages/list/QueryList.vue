@@ -3,76 +3,76 @@
     <div :class="advanced ? 'search' : null">
       <a-form layout="horizontal">
         <div :class="advanced ? null: 'fold'">
-          <a-row >
-          <a-col :md="8" :sm="24" >
-            <a-form-item
-              label="规则编号"
-              :labelCol="{span: 5}"
-              :wrapperCol="{span: 18, offset: 1}"
-            >
-              <a-input placeholder="请输入" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24" >
-            <a-form-item
-              label="使用状态"
-              :labelCol="{span: 5}"
-              :wrapperCol="{span: 18, offset: 1}"
-            >
-              <a-select placeholder="请选择">
-                <a-select-option value="1">关闭</a-select-option>
-                <a-select-option value="2">运行中</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24" >
-            <a-form-item
-              label="调用次数"
-              :labelCol="{span: 5}"
-              :wrapperCol="{span: 18, offset: 1}"
-            >
-              <a-input-number style="width: 100%" placeholder="请输入" />
-            </a-form-item>
-          </a-col>
-        </a-row>
+          <a-row>
+            <a-col :md="8" :sm="24">
+              <a-form-item
+                label="规则编号"
+                :label-col="{span: 5}"
+                :wrapper-col="{span: 18, offset: 1}"
+              >
+                <a-input placeholder="请输入" />
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-item
+                label="使用状态"
+                :label-col="{span: 5}"
+                :wrapper-col="{span: 18, offset: 1}"
+              >
+                <a-select placeholder="请选择">
+                  <a-select-option value="1">关闭</a-select-option>
+                  <a-select-option value="2">运行中</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-item
+                label="调用次数"
+                :label-col="{span: 5}"
+                :wrapper-col="{span: 18, offset: 1}"
+              >
+                <a-input-number style="width: 100%" placeholder="请输入" />
+              </a-form-item>
+            </a-col>
+          </a-row>
           <a-row v-if="advanced">
-          <a-col :md="8" :sm="24" >
-            <a-form-item
-              label="更新日期"
-              :labelCol="{span: 5}"
-              :wrapperCol="{span: 18, offset: 1}"
-            >
-              <a-date-picker style="width: 100%" placeholder="请输入更新日期" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24" >
-            <a-form-item
-              label="使用状态"
-              :labelCol="{span: 5}"
-              :wrapperCol="{span: 18, offset: 1}"
-            >
-              <a-select placeholder="请选择">
-                <a-select-option value="1">关闭</a-select-option>
-                <a-select-option value="2">运行中</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24" >
-            <a-form-item
-              label="描述"
-              :labelCol="{span: 5}"
-              :wrapperCol="{span: 18, offset: 1}"
-            >
-              <a-input placeholder="请输入" />
-            </a-form-item>
-          </a-col>
-        </a-row>
+            <a-col :md="8" :sm="24">
+              <a-form-item
+                label="更新日期"
+                :label-col="{span: 5}"
+                :wrapper-col="{span: 18, offset: 1}"
+              >
+                <a-date-picker style="width: 100%" placeholder="请输入更新日期" />
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-item
+                label="使用状态"
+                :label-col="{span: 5}"
+                :wrapper-col="{span: 18, offset: 1}"
+              >
+                <a-select placeholder="请选择">
+                  <a-select-option value="1">关闭</a-select-option>
+                  <a-select-option value="2">运行中</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-item
+                label="描述"
+                :label-col="{span: 5}"
+                :wrapper-col="{span: 18, offset: 1}"
+              >
+                <a-input placeholder="请输入" />
+              </a-form-item>
+            </a-col>
+          </a-row>
         </div>
         <span style="float: right; margin-top: 3px;">
           <a-button type="primary">查询</a-button>
           <a-button style="margin-left: 8px">重置</a-button>
-          <a @click="toggleAdvanced" style="margin-left: 8px">
-            {{advanced ? '收起' : '展开'}}
+          <a style="margin-left: 8px" @click="toggleAdvanced">
+            {{ advanced ? '收起' : '展开' }}
             <a-icon :type="advanced ? 'up' : 'down'" />
           </a>
         </span>
@@ -80,10 +80,10 @@
     </div>
     <div>
       <a-space class="operator">
-        <a-button @click="addNew" type="primary">新建</a-button>
-        <a-button >批量操作</a-button>
+        <a-button type="primary" @click="addNew">新建</a-button>
+        <a-button>批量操作</a-button>
         <a-dropdown>
-          <a-menu @click="handleMenuClick" slot="overlay">
+          <a-menu slot="overlay" @click="handleMenuClick">
             <a-menu-item key="delete">删除</a-menu-item>
             <a-menu-item key="audit">审批</a-menu-item>
           </a-menu>
@@ -94,31 +94,31 @@
       </a-space>
       <standard-table
         :columns="columns"
-        :dataSource="dataSource"
-        :selectedRows.sync="selectedRows"
+        :data-source="dataSource"
+        :selected-rows.sync="selectedRows"
         @clear="onClear"
         @change="onChange"
         @selectedRowChange="onSelectChange"
       >
         <div slot="description" slot-scope="{text}">
-          {{text}}
+          {{ text }}
         </div>
-        <div slot="action" slot-scope="{text, record}">
+        <div slot="action" slot-scope="{record}">
           <a style="margin-right: 8px">
-            <a-icon type="plus"/>新增
+            <a-icon type="plus" />新增
           </a>
           <a style="margin-right: 8px">
-            <a-icon type="edit"/>编辑
+            <a-icon type="edit" />编辑
           </a>
           <a @click="deleteRecord(record.key)">
             <a-icon type="delete" />删除1
           </a>
-          <a @click="deleteRecord(record.key)" v-auth="`delete`">
+          <a v-auth="`delete`" @click="deleteRecord(record.key)">
             <a-icon type="delete" />删除2
           </a>
         </div>
         <template slot="statusTitle">
-          <a-icon @click.native="onStatusTitleClick" type="info-circle" />
+          <a-icon type="info-circle" @click.native="onStatusTitleClick" />
         </template>
       </standard-table>
     </div>
@@ -147,7 +147,7 @@ const columns = [
   {
     dataIndex: 'status',
     needTotal: true,
-    slots: {title: 'statusTitle'}
+    slots: { title: 'statusTitle' }
   },
   {
     title: '更新时间',
@@ -175,8 +175,8 @@ for (let i = 0; i < 100; i++) {
 
 export default {
   name: 'QueryList',
-  components: {StandardTable},
-  data () {
+  components: { StandardTable },
+  data() {
     return {
       advanced: true,
       columns: columns,
@@ -192,10 +192,10 @@ export default {
       this.dataSource = this.dataSource.filter(item => item.key !== key)
       this.selectedRows = this.selectedRows.filter(item => item.key !== key)
     },
-    toggleAdvanced () {
+    toggleAdvanced() {
       this.advanced = !this.advanced
     },
-    remove () {
+    remove() {
       this.dataSource = this.dataSource.filter(item => this.selectedRows.findIndex(row => row.key === item.key) === -1)
       this.selectedRows = []
     },
@@ -211,7 +211,7 @@ export default {
     onSelectChange() {
       this.$message.info('选中行改变了')
     },
-    addNew () {
+    addNew() {
       this.dataSource.unshift({
         key: this.dataSource.length,
         no: 'NO ' + this.dataSource.length,
@@ -221,7 +221,7 @@ export default {
         updatedAt: '2018-07-26'
       })
     },
-    handleMenuClick (e) {
+    handleMenuClick(e) {
       if (e.key === 'delete') {
         this.remove()
       }

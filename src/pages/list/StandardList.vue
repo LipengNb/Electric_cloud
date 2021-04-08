@@ -2,9 +2,9 @@
   <div>
     <a-card :bordered="false">
       <div style="display: flex; flex-wrap: wrap">
-          <head-info title="我的待办" content="8个任务" :bordered="true"/>
-          <head-info title="本周任务平均处理时间" content="32分钟" :bordered="true"/>
-          <head-info title="本周完成任务数" content="24个"/>
+        <head-info title="我的待办" content="8个任务" :bordered="true" />
+        <head-info title="本周任务平均处理时间" content="32分钟" :bordered="true" />
+        <head-info title="本周完成任务数" content="24个" />
       </div>
     </a-card>
     <a-card
@@ -22,11 +22,11 @@
       </div>
       <a-button type="dashed" style="width: 100%" icon="plus">添加</a-button>
       <a-list size="large" :pagination="{showSizeChanger: true, showQuickJumper: true, pageSize: 5, total: 50}">
-        <a-list-item :key="i" v-for="i in 5">
+        <a-list-item v-for="i in 5" :key="i">
           <a-list-item-meta
             description="那是一种内在的东西， 他们到达不了，也无法触及的"
           >
-            <a-avatar slot="avatar" size="large" shape="square" src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"/>
+            <a-avatar slot="avatar" size="large" shape="square" src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png" />
             <a slot="title">AliPay</a>
           </a-list-item-meta>
           <div slot="actions">
@@ -38,7 +38,7 @@
                 <a-menu-item><a>编辑</a></a-menu-item>
                 <a-menu-item><a>删除</a></a-menu-item>
               </a-menu>
-              <a>更多<a-icon type="down"/></a>
+              <a>更多<a-icon type="down" /></a>
             </a-dropdown>
           </div>
           <div class="list-content">
@@ -64,7 +64,7 @@
 import HeadInfo from '../../components/tool/HeadInfo'
 export default {
   name: 'StandardList',
-  components: {HeadInfo}
+  components: { HeadInfo }
 }
 </script>
 

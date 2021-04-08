@@ -115,4 +115,4 @@ const operationColumns = [
   }
 ]
 
-export {operation1, operation2, operation3, operationColumns}
+export { operation1, operation2, operation3, operationColumns }

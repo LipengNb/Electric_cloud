@@ -1,16 +1,16 @@
 <template>
   <div>
     <a-card class="card" :title="$t('repository')" :bordered="false">
-      <repository-form ref="repository" :showSubmit="false" />
+      <repository-form ref="repository" :show-submit="false" />
     </a-card>
     <a-card class="card" :title="$t('task')" :bordered="false">
-      <task-form ref="task" :showSubmit="false" />
+      <task-form ref="task" :show-submit="false" />
     </a-card>
     <a-card :title="$t('user')" :bordered="false">
       <user-form />
     </a-card>
     <footer-tool-bar>
-      <a-button type="primary" @click="validate" :loading="loading">{{$t('submit')}}</a-button>
+      <a-button type="primary" :loading="loading" @click="validate">{{ $t('submit') }}</a-button>
     </footer-tool-bar>
   </div>
 </template>
@@ -23,9 +23,9 @@ import FooterToolBar from '@/components/tool/FooterToolBar'
 
 export default {
   name: 'AdvancedForm',
-  components: {FooterToolBar, UserForm, TaskForm, RepositoryForm},
+  components: { FooterToolBar, UserForm, TaskForm, RepositoryForm },
   i18n: require('./i18n'),
-  data () {
+  data() {
     return {
       loading: false
     }
@@ -36,7 +36,7 @@ export default {
     }
   },
   methods: {
-    validate () {
+    validate() {
       this.$refs.repository.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)

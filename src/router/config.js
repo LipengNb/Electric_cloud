@@ -13,12 +13,12 @@ const options = {
     {
       path: '*',
       name: '404',
-      component: () => import('@/pages/exception/404'),
+      component: () => import('@/pages/exception/404')
     },
     {
       path: '/403',
       name: '403',
-      component: () => import('@/pages/exception/403'),
+      component: () => import('@/pages/exception/403')
     },
     {
       path: '/',
@@ -42,12 +42,12 @@ const options = {
                   closable: false
                 }
               },
-              component: () => import('@/pages/dashboard/workplace'),
+              component: () => import('@/pages/dashboard/workplace')
             },
             {
               path: 'analysis',
               name: '分析页',
-              component: () => import('@/pages/dashboard/analysis'),
+              component: () => import('@/pages/dashboard/analysis')
             }
           ]
         },
@@ -65,17 +65,17 @@ const options = {
             {
               path: 'basic',
               name: '基础表单',
-              component: () => import('@/pages/form/basic'),
+              component: () => import('@/pages/form/basic')
             },
             {
               path: 'step',
               name: '分步表单',
-              component: () => import('@/pages/form/step'),
+              component: () => import('@/pages/form/step')
             },
             {
               path: 'advance',
               name: '高级表单',
-              component: () => import('@/pages/form/advance'),
+              component: () => import('@/pages/form/advance')
             }
           ]
         },
@@ -91,19 +91,19 @@ const options = {
               path: 'query',
               name: '查询表格',
               meta: {
-                authority: 'queryForm',
+                authority: 'queryForm'
               },
-              component: () => import('@/pages/list/QueryList'),
+              component: () => import('@/pages/list/QueryList')
             },
             {
               path: 'primary',
               name: '标准列表',
-              component: () => import('@/pages/list/StandardList'),
+              component: () => import('@/pages/list/StandardList')
             },
             {
               path: 'card',
               name: '卡片列表',
-              component: () => import('@/pages/list/CardList'),
+              component: () => import('@/pages/list/CardList')
             },
             {
               path: 'search',
@@ -113,17 +113,17 @@ const options = {
                 {
                   path: 'article',
                   name: '文章',
-                  component: () => import('@/pages/list/search/ArticleList'),
+                  component: () => import('@/pages/list/search/ArticleList')
                 },
                 {
                   path: 'application',
                   name: '应用',
-                  component: () => import('@/pages/list/search/ApplicationList'),
+                  component: () => import('@/pages/list/search/ApplicationList')
                 },
                 {
                   path: 'project',
                   name: '项目',
-                  component: () => import('@/pages/list/search/ProjectList'),
+                  component: () => import('@/pages/list/search/ProjectList')
                 }
               ]
             }
@@ -153,7 +153,7 @@ const options = {
           path: 'result',
           name: '结果页',
           meta: {
-            icon: 'check-circle-o',
+            icon: 'check-circle-o'
           },
           component: PageView,
           children: [
@@ -173,7 +173,7 @@ const options = {
           path: 'exception',
           name: '异常页',
           meta: {
-            icon: 'warning',
+            icon: 'warning'
           },
           component: BlankView,
           children: [
@@ -247,7 +247,7 @@ const options = {
           }
         }
       ]
-    },
+    }
   ]
 }
 
