@@ -31,11 +31,6 @@ module.exports = {
           project: { name: '項目' }
         }
       },
-      details: {
-        name: '詳情頁',
-        basic: { name: '基礎詳情頁' },
-        advance: { name: '高級詳情頁' }
-      },
       result: {
         name: '結果頁',
         success: { name: '成功' },
