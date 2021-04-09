@@ -51,81 +51,96 @@ const options = {
             }
           ]
         },
+        // {
+        //   path: 'form',
+        //   name: '表单页',
+        //   meta: {
+        //     icon: 'form',
+        //     page: {
+        //       cacheAble: false
+        //     }
+        //   },
+        //   component: PageView,
+        //   children: [
+        //     {
+        //       path: 'basic',
+        //       name: '基础表单',
+        //       component: () => import('@/pages/form/basic')
+        //     },
+        //     {
+        //       path: 'step',
+        //       name: '分步表单',
+        //       component: () => import('@/pages/form/step')
+        //     },
+        //     {
+        //       path: 'advance',
+        //       name: '高级表单',
+        //       component: () => import('@/pages/form/advance')
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: 'list',
+        //   name: '列表页',
+        //   meta: {
+        //     icon: 'table'
+        //   },
+        //   component: PageView,
+        //   children: [
+        //     {
+        //       path: 'query',
+        //       name: '查询表格',
+        //       meta: {
+        //         authority: 'queryForm'
+        //       },
+        //       component: () => import('@/pages/list/QueryList')
+        //     },
+        //     {
+        //       path: 'primary',
+        //       name: '标准列表',
+        //       component: () => import('@/pages/list/StandardList')
+        //     },
+        //     {
+        //       path: 'card',
+        //       name: '卡片列表',
+        //       component: () => import('@/pages/list/CardList')
+        //     },
+        //     {
+        //       path: 'search',
+        //       name: '搜索列表',
+        //       component: () => import('@/pages/list/search/SearchLayout'),
+        //       children: [
+        //         {
+        //           path: 'article',
+        //           name: '文章',
+        //           component: () => import('@/pages/list/search/ArticleList')
+        //         },
+        //         {
+        //           path: 'application',
+        //           name: '应用',
+        //           component: () => import('@/pages/list/search/ApplicationList')
+        //         },
+        //         {
+        //           path: 'project',
+        //           name: '项目',
+        //           component: () => import('@/pages/list/search/ProjectList')
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // },
         {
-          path: 'form',
-          name: '表单页',
+          path: 'room',
+          name: '宿舍管理',
           meta: {
-            icon: 'form',
-            page: {
-              cacheAble: false
-            }
+            icon: 'control'
           },
           component: PageView,
           children: [
             {
-              path: 'basic',
-              name: '基础表单',
-              component: () => import('@/pages/form/basic')
-            },
-            {
-              path: 'step',
-              name: '分步表单',
-              component: () => import('@/pages/form/step')
-            },
-            {
-              path: 'advance',
-              name: '高级表单',
-              component: () => import('@/pages/form/advance')
-            }
-          ]
-        },
-        {
-          path: 'list',
-          name: '列表页',
-          meta: {
-            icon: 'table'
-          },
-          component: PageView,
-          children: [
-            {
-              path: 'query',
-              name: '查询表格',
-              meta: {
-                authority: 'queryForm'
-              },
-              component: () => import('@/pages/list/QueryList')
-            },
-            {
-              path: 'primary',
-              name: '标准列表',
-              component: () => import('@/pages/list/StandardList')
-            },
-            {
-              path: 'card',
-              name: '卡片列表',
-              component: () => import('@/pages/list/CardList')
-            },
-            {
-              path: 'search',
-              name: '搜索列表',
-              component: () => import('@/pages/list/search/SearchLayout'),
-              children: [
-                {
-                  path: 'article',
-                  name: '文章',
-                  component: () => import('@/pages/list/search/ArticleList')
-                },
-                {
-                  path: 'application',
-                  name: '应用',
-                  component: () => import('@/pages/list/search/ApplicationList')
-                },
-                {
-                  path: 'project',
-                  name: '项目',
-                  component: () => import('@/pages/list/search/ProjectList')
-                }
-              ]
+              path: 'config',
+              name: '电器配置',
+              component: () => import('@/pages/room/config')
             }
           ]
         },
@@ -140,14 +155,6 @@ const options = {
           },
           component: () => import('@/pages/form/basic')
         }
-        // {
-        //   name: '使用文档',
-        //   path: 'document',
-        //   meta: {
-        //     icon: 'file-word',
-        //     link: 'https://iczer.gitee.io/vue-antd-admin-docs/'
-        //   }
-        // }
       ]
     }
   ]

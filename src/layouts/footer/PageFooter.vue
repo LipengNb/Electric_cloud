@@ -5,7 +5,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'PageFooter',
@@ -17,28 +16,17 @@ export default {
   }
 }
 </script>
-
 <style lang="less" scoped>
   .footer{
-    padding: 24px;
+    padding: 10px;
     text-align: center;
+    margin-top: 20px;
     background-color: #fff;
     .copyright{
       color: @text-color-second;
       font-size: 14px;
       i {
           margin: 0 4px;
-      }
-    }
-    .links{
-      margin-bottom: 8px;
-      a:not(:last-child) {
-        margin-right: 40px;
-      }
-      a{
-        color: @text-color-second;
-        -webkit-transition: all .3s;
-        transition: all .3s;
       }
     }
   }

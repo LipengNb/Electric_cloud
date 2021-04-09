@@ -23,7 +23,6 @@
             </g>
           </g>
         </svg>
-        <!-- <img src="@/assets/img/logo.png"> -->
         <h1>{{ systemName }}</h1>
       </router-link>
     </div>

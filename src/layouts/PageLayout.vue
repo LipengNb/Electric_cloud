@@ -1,33 +1,27 @@
 <template>
   <div class="page-layout">
-    <page-header ref="pageHeader" :style="`margin-top: ${multiPage ? 0 : -24}px`" :title="pageTitle" :logo="logo" :avatar="avatar">
-      <slot slot="action" name="action" />
-      <slot slot="content" name="headerContent" />
-      <div v-if="!this.$slots.headerContent && desc" slot="content">
-        <!-- <p>{{ desc }}</p> -->
-        <div v-if="linkList" class="link">
-          <template v-for="(link, index) in linkList">
-            <a :key="index" :href="link.href"><a-icon :type="link.icon" />{{ link.title }}</a>
-          </template>
-        </div>
-      </div>
-      <slot v-if="this.$slots.extra" slot="extra" name="extra" />
-    </page-header>
+    <div ref="pageHeader" class="page-header">
+      <h1 class="title">{{ pageTitle }}</h1>
+    </div>
     <div ref="page" :class="['page-content', layout, pageWidth]">
-      <slot />
+      <a-card :body-style="{padding: '20px 10px'}" :bordered="false">
+        <slot />
+      </a-card>
     </div>
   </div>
 </template>
 
 <script>
-import PageHeader from '@/components/page/header/PageHeader'
 import { mapState, mapMutations } from 'vuex'
 import { getI18nKey } from '@/utils/routerUtil'
-
 export default {
   name: 'PageLayout',
-  components: { PageHeader },
-  props: ['desc', 'logo', 'title', 'avatar', 'linkList', 'extraImage'],
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       page: {},
@@ -94,7 +88,7 @@ export default {
      * 用于计算页面内容最小高度
      * @param newHeight
      */
-    updatePageHeight(newHeight = this.$refs.pageHeader.$el.offsetHeight + this.marginCorrect) {
+    updatePageHeight(newHeight = this.$refs.pageHeader.offsetHeight + this.marginCorrect) {
       this.correctPageMinHeight(this.pageHeaderHeight - newHeight)
       this.pageHeaderHeight = newHeight
     }
@@ -102,10 +96,27 @@ export default {
 }
 </script>
 
-<style lang="less">
-  .page-header{
-    margin: 0 -24px 0;
+<style lang="less" scoped>
+.page-header{
+  padding: 20px 10px;
+  background-color: @base-bg-color;
+  .title{
+    font-size: 20px;
+    color: @title-color;
+    padding-left: 14px;
+    margin: 0;
+    position: relative;
+    &::before{
+      content: '';
+      width: 4px;
+      height: 20px;
+      position: absolute;
+      left: 0;
+      top: 5px;
+      background-color: @title-color;
+    }
   }
+}
   .link{
     /*margin-top: 16px;*/
     line-height: 24px;
@@ -120,7 +131,7 @@ export default {
   }
   .page-content{
     position: relative;
-    padding: 24px 0 0;
+    padding: 10px 0 0;
     &.head.fixed{
       margin: 0 auto;
       max-width: 1400px;

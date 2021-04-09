@@ -34,7 +34,6 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'AdminHeader',
   components: { IMenu, HeaderAvatar, HeaderNotice },
-  // props: ['collapsed', 'menuData'],
   props: {
     collapsed: {
       type: Boolean,

@@ -30,18 +30,15 @@
 import AdminHeader from './header/AdminHeader'
 import PageFooter from './footer/PageFooter'
 import Drawer from '../components/tool/Drawer'
-import SideMenu from '../components/menu/SideMenu'
+import SideMenu from './menu/SideMenu'
 import Setting from '../components/setting/Setting'
 import { mapState, mapMutations, mapGetters } from 'vuex'
-
-// const minHeight = window.innerHeight - 64 - 122
-
 export default {
   name: 'AdminLayout',
   components: { Setting, SideMenu, Drawer, PageFooter, AdminHeader },
   data() {
     return {
-      minHeight: window.innerHeight - 140.5,
+      minHeight: window.innerHeight - 126,
       collapsed: false,
       showSetting: false,
       drawerOpen: false
