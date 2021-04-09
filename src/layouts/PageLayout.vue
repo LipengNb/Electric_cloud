@@ -98,21 +98,21 @@ export default {
 
 <style lang="less" scoped>
 .page-header{
-  padding: 20px 10px;
+  padding: 10px;
   background-color: @base-bg-color;
   .title{
-    font-size: 20px;
+    font-size: 14px;
     color: @title-color;
-    padding-left: 14px;
+    padding-left: 10px;
     margin: 0;
     position: relative;
     &::before{
       content: '';
-      width: 4px;
-      height: 20px;
+      width: 3px;
+      height: 14px;
       position: absolute;
       left: 0;
-      top: 5px;
+      top: 4px;
       background-color: @title-color;
     }
   }

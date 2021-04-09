@@ -7,13 +7,6 @@
           <slot v-else-if="$slots.title" name="title" />
           <template v-else>高级表格</template>
         </div>
-        <div class="search">
-          <search-area :format-conditions="formatConditions" :columns="columns" @change="onSearchChange">
-            <template v-for="slot in slots" :slot="slot">
-              <slot :name="slot" />
-            </template>
-          </search-area>
-        </div>
         <div class="actions">
           <a-tooltip title="刷新">
             <a-icon class="action" :type="loading ? 'loading' : 'reload'" @click="refresh" />
@@ -31,8 +24,12 @@
           </a-tooltip>
         </div>
       </div>
+      <!-- v-bind="{...$props, columns: visibleColumns, title: undefined, loading: false}" -->
       <a-table
-        v-bind="{...$props, columns: visibleColumns, title: undefined, loading: false}"
+        :columns="visibleColumns"
+        :data-source="dataSource"
+        :pagination="pagination"
+        :row-key="rowKey"
         :size="sSize"
         @expandedRowsChange="onExpandedRowsChange"
         @change="onChange"
@@ -55,10 +52,9 @@
 <script>
 import ActionSize from '@/components/table/advance/ActionSize'
 import ActionColumns from '@/components/table/advance/ActionColumns'
-import SearchArea from '@/components/table/advance/SearchArea'
 export default {
   name: 'AdvanceTable',
-  components: { SearchArea, ActionColumns, ActionSize },
+  components: { ActionColumns, ActionSize },
   props: {
     tableLayout: { type: String, default: '' },
     bordered: Boolean,
@@ -84,7 +80,7 @@ export default {
     rowClassName: { type: Function, default: () => {} },
     rowKey: {
       type: [String, Function],
-      default: ''
+      default: 'id'
     },
     rowSelection: { type: Object, default: () => {} },
     scroll: { type: Object, default: () => {} },
@@ -212,9 +208,10 @@ export default {
   overflow-y: auto;
   background-color: @component-background;
   .header-bar{
-    padding: 16px 24px;
+    padding: 16px 0;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-radius: 4px;
     transition: all 0.3s;
     &.middle{
