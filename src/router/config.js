@@ -24,7 +24,7 @@ const options = {
       path: '/',
       name: '首页',
       component: TabsView,
-      redirect: '/login',
+      redirect: '/dashboard/analysis',
       children: [
         {
           path: 'dashboard',
@@ -43,11 +43,6 @@ const options = {
                 }
               },
               component: () => import('@/pages/dashboard/workplace')
-            },
-            {
-              path: 'analysis',
-              name: '分析页',
-              component: () => import('@/pages/dashboard/analysis')
             }
           ]
         },
@@ -62,16 +57,6 @@ const options = {
         //   },
         //   component: PageView,
         //   children: [
-        //     {
-        //       path: 'basic',
-        //       name: '基础表单',
-        //       component: () => import('@/pages/form/basic')
-        //     },
-        //     {
-        //       path: 'step',
-        //       name: '分步表单',
-        //       component: () => import('@/pages/form/step')
-        //     },
         //     {
         //       path: 'advance',
         //       name: '高级表单',
@@ -143,17 +128,6 @@ const options = {
               component: () => import('@/pages/room/config')
             }
           ]
-        },
-        {
-          name: '验权表单',
-          path: 'auth/form',
-          meta: {
-            icon: 'file-excel',
-            authority: {
-              permission: 'form'
-            }
-          },
-          component: () => import('@/pages/form/basic')
         }
       ]
     }

@@ -38,7 +38,7 @@ export default {
   components: { Setting, SideMenu, Drawer, PageFooter, AdminHeader },
   data() {
     return {
-      minHeight: window.innerHeight - 126,
+      minHeight: window.innerHeight - 116,
       collapsed: false,
       showSetting: false,
       drawerOpen: false

@@ -27,10 +27,8 @@
       </div>
     </div>
     <div class="login">
-      <div class="title">登录</div>
+      <div class="title">非侵入式负荷检测</div>
       <a-form :form="form" @submit="onSubmit">
-        <input type="name" style="position: absolute;z-index: -999">
-        <input type="password" style="position: absolute;z-index: -999">
         <a-form-item class="form-inout-item">
           <a-input
             v-decorator="['name', {rules: [{ required: true, message: '请输入账户名', whitespace: true}]}]"
@@ -38,7 +36,7 @@
             size="large"
             placeholder="请输入用户名"
           >
-            <a-icon slot="prefix" type="user" />
+            <a-icon slot="prefix" type="user" two-tone-color="#fff" />
           </a-input>
         </a-form-item>
         <a-form-item class="form-inout-item">
@@ -170,46 +168,34 @@ export default {
           font-size: 14px;
         }
       }
-      .icon {
-        font-size: 24px;
-        color: #22ffff !important;
-        margin-left: 16px;
-        vertical-align: middle;
-        cursor: pointer;
-        transition: color 0.3s;
-
-        &:hover {
-          color: #22ffff;
-        }
-      }
       .title{
         text-align: center;
         font-size: 28px;
         margin-bottom: 24px;
       }
       .form-inout-item{
-        &::after{
-          content: '';
-          width: 10px;
-          height: 10px;
-          position: absolute;
-          right: 0;
-          bottom: 1px;
-          z-index: 1;
-          border-right: 1px solid #22ffff;
-          border-bottom: 1px solid #22ffff;
-        }
-        &::before{
-          content: '';
-          width: 10px;
-          height: 10px;
-          position: absolute;
-          left: 0;
-          top: 0;
-          z-index: 1;
-          border-top: 1px solid #22ffff;
-          border-left: 1px solid #22ffff;
-        }
+        // &::after{
+        //   content: '';
+        //   width: 10px;
+        //   height: 10px;
+        //   position: absolute;
+        //   right: 0;
+        //   bottom: 1px;
+        //   z-index: 1;
+        //   border-right: 1px solid #22ffff;
+        //   border-bottom: 1px solid #22ffff;
+        // }
+        // &::before{
+        //   content: '';
+        //   width: 10px;
+        //   height: 10px;
+        //   position: absolute;
+        //   left: 0;
+        //   top: 0;
+        //   z-index: 1;
+        //   border-top: 1px solid #22ffff;
+        //   border-left: 1px solid #22ffff;
+        // }
       }
       /deep/.ant-input{
         border: none;

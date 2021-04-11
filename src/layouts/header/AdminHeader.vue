@@ -29,7 +29,7 @@
 <script>
 import HeaderNotice from './HeaderNotice'
 import HeaderAvatar from './HeaderAvatar'
-import IMenu from '@/components/menu/menu'
+import IMenu from '..//menu/menu'
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'AdminHeader',

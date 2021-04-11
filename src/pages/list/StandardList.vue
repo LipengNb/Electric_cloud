@@ -1,12 +1,5 @@
 <template>
   <div>
-    <a-card :bordered="false">
-      <div style="display: flex; flex-wrap: wrap">
-        <head-info title="我的待办" content="8个任务" :bordered="true" />
-        <head-info title="本周任务平均处理时间" content="32分钟" :bordered="true" />
-        <head-info title="本周完成任务数" content="24个" />
-      </div>
-    </a-card>
     <a-card
       style="margin-top: 24px"
       :bordered="false"
@@ -61,10 +54,8 @@
 </template>
 
 <script>
-import HeadInfo from '../../components/tool/HeadInfo'
 export default {
-  name: 'StandardList',
-  components: { HeadInfo }
+  name: 'StandardList'
 }
 </script>
 

@@ -12,7 +12,12 @@
 <script>
 export default {
   name: 'FormRow',
-  props: ['label']
+  props: {
+    label: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 

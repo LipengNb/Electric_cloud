@@ -20,7 +20,7 @@ export default {
   .footer{
     padding: 10px;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
     background-color: #fff;
     .copyright{
       color: @text-color-second;

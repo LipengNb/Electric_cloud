@@ -26,24 +26,10 @@ const routerMap = {
     name: '工作台',
     component: () => import('@/pages/dashboard/workplace')
   },
-  analysis: {
-    name: '分析页',
-    component: () => import('@/pages/dashboard/analysis')
-  },
   form: {
     name: '表单页',
     icon: 'form',
     component: view.page
-  },
-  basicForm: {
-    path: 'basic',
-    name: '基础表单',
-    component: () => import('@/pages/form/basic')
-  },
-  stepForm: {
-    path: 'step',
-    name: '分步表单',
-    component: () => import('@/pages/form/step')
   },
   advanceForm: {
     path: 'advance',
