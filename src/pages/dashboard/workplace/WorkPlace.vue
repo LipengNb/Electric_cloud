@@ -2,268 +2,74 @@
   <!-- :style="{ background: 'url('+bg+') no-repeat center'}" -->
   <div class="dashboard" :style="{ background: '#101430'}">
     <a-row>
-      <a-col :xl="5" :md="24">
+      <a-col :xl="6" :md="24">
         <div class="panel">
           <h2>设备状态</h2>
-          <div class="chart" />
+          <device-status height="240px" />
           <div class="panel-footer" />
         </div>
         <div class="panel">
           <h2>检测状态</h2>
-          <div class="chart">
-            <div id="watchStatus" class="chart" />
+          <div class="chart-wrap">
+            <watch-status height="240px" />
           </div>
           <div class="panel-footer" />
         </div>
       </a-col>
-      <a-col :xl="14" :md="24">
+      <a-col :xl="12" :md="24">
         <!-- <div class="panel center">1</div> -->
       </a-col>
-      <a-col :xl="5" :md="24">
+      <a-col :xl="6" :md="24">
         <div class="panel">
           <h2>七天用电排行</h2>
-          <div class="chart" />
+          <div class="chart-wrap">
+            <kwh-ranking height="240px" />
+          </div>
           <div class="panel-footer" />
         </div>
         <div class="panel">
           <h2>隐患时间分布</h2>
-          <div class="chart" />
+          <div class="chart-wrap">
+            <hidden-danger height="240px" />
+          </div>
           <div class="panel-footer" />
         </div>
       </a-col>
     </a-row>
     <a-row>
-      <a-col :xl="5">
+      <a-col :xl="6">
         <div class="panel">
           <h2>总功率趋势</h2>
-          <div id="power" class="chart" />
+          <div class="chart-wrap">
+            <power-trend height="240px" />
+          </div>
           <div class="panel-footer" />
         </div>
       </a-col>
-      <a-col :xl="19">
+      <a-col :xl="18">
         <div class="panel table">2</div>
       </a-col>
     </a-row>
   </div>
 </template>
 <script>
+import deviceStatus from './chart/deviceStatus'
+import watchStatus from './chart/watchStatus'
+import powerTrend from './chart/powerTrend'
+import kwhRanking from './chart/kwhRanking'
+import hiddenDanger from './chart/hiddenDanger'
 export default {
+  components: {
+    kwhRanking,
+    deviceStatus,
+    watchStatus,
+    powerTrend,
+    hiddenDanger
+  },
   data() {
     return {
       bg: require('@/assets/img/bg.jpg'),
-      themeColor: '#36ecff',
-      watchStatus: '',
-      power: ''
-    }
-  },
-  mounted() {
-    this.initEcharts()
-    window.onresize = () => {
-      this.watchStatus.resize()
-    }
-    window.onresize = () => {
-      this.power.resize()
-    }
-  },
-  methods: {
-    initEcharts() {
-      this.watchStatusPie()
-      this.powerLine()
-    },
-    watchStatusPie() {
-      const themeColor = this.themeColor
-      const options = {
-        title: {
-          text: '监测宿舍数量\n123',
-          left: 'center',
-          top: 'middle',
-          textStyle: {
-            fontStyle: 'italic',
-            color: themeColor,
-            fontSize: 14,
-            lineHeight: 20
-          }
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'right',
-          top: 'bottom',
-          align: 'left',
-          itemGap: 10,
-          itemWidth: 10,
-          itemHeight: 10,
-          textStyle: {
-            fontSize: 14,
-            color: themeColor
-          }
-        },
-        series: [
-          {
-            name: '访问来源',
-            type: 'pie',
-            radius: ['36%', '50%'],
-            avoidLabelOverlap: false,
-            label: {
-              alignTo: 'edge',
-              formatter: '{c}%\n{name|{b}}',
-              minMargin: 5,
-              edgeDistance: 10,
-              lineHeight: 30,
-              fontSize: 14,
-              color: themeColor,
-              rich: {
-                time: {
-                  fontSize: 10,
-                  color: themeColor
-                }
-              }
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '18'
-              }
-            },
-            labelLine: {
-              length: 36,
-              length2: 10,
-              lineStyle: {
-                width: 1,
-                color: themeColor
-              }
-            },
-            labelLayout: function(params) {
-              // // var isLeft = params.labelRect.x < this.watchStatus.getWidth() / 3
-              // var points = params.labelLinePoints
-              // // Update the end point.
-              // points[2][0] = isLeft
-              //   ? params.labelRect.x
-              //   : params.labelRect.x + params.labelRect.width
-
-              // return {
-              //   labelLinePoints: points
-              // }
-            },
-            data: [
-              { value: 53, name: '监测正常' },
-              { value: 20, name: '监测报警' },
-              { value: 30, name: '监测离线' }
-            ],
-            itemStyle: {
-              borderWidth: 3,
-              borderColor: '#171b36',
-              color: (params) => {
-                const colorList = ['#36ecff', '#fe4f4e', '#0470f9']
-                return colorList[params.dataIndex]
-              }
-            }
-          }
-        ]
-      }
-      this.watchStatus = this.$echarts.init(document.querySelector('#watchStatus')).setOption(options)
-    },
-    powerLine() {
-      const themeColor = this.themeColor
-      const options = {
-        tooltip: {
-          trigger: 'axis'
-        },
-        grid: {
-          show: true,
-          top: 20,
-          right: 10,
-          borderColor: themeColor
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: 'rgba(255,255,255,.1)',
-              type: 'dashed'
-            }
-          },
-          axisLabel: {
-            color: themeColor,
-            fontSize: 10
-          },
-          axisTick: {
-            show: false
-          },
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: themeColor
-            }
-          }
-        },
-        yAxis: {
-          type: 'value',
-          splitNumber: 10,
-          boundaryGap: false,
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: themeColor
-            }
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: 'rgba(255,255,255,.1)',
-              type: 'dashed'
-            }
-          },
-          axisLabel: {
-            color: themeColor,
-            fontSize: 10
-          }
-        },
-        series: [{
-          data: [820, 932, 901, 934, 180, 800, 900],
-          type: 'line',
-          smooth: true,
-          areaStyle: {
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [{
-                offset: 0, color: '#035ff3' // 0% 处的颜色
-              }, {
-                offset: 1, color: 'transparent' // 100% 处的颜色
-              }],
-              global: false // 缺省为 false
-            }
-          },
-          itemStyle: {
-            opacity: 0
-          },
-          lineStyle: {
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [{
-                offset: 0, color: themeColor // 0% 处的颜色
-              }, {
-                offset: 1, color: '#035ff3'// 100% 处的颜色
-              }],
-              global: false // 缺省为 false
-            }
-          }
-        }]
-      }
-      this.power = this.$echarts.init(document.querySelector('#power')).setOption(options)
+      themeColor: '#36ecff'
     }
   }
 }
@@ -271,7 +77,6 @@ export default {
 <style lang="less" scoped>
 @color: #36ecff;
 .dashboard{
-  // height: calc(100vh - 164px);
   padding: 10px;
   background-size: 100% 100% !important;
   .panel{
@@ -329,10 +134,10 @@ export default {
       text-align: center;
       color: @color;
     }
-    .chart{
+    .chart-wrap{
       flex: 1;
-      margin: 10px;
-      // background-color: pink;
+      padding: 0 10px;
+      box-sizing: border-box;
     }
   }
   .center{
