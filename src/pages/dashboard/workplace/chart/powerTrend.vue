@@ -80,6 +80,11 @@ export default {
             lineStyle: {
               color: themeColor
             }
+          },
+          splitArea: {
+            areaStyle: {
+              color: 'transparent'
+            }
           }
         },
         yAxis: {
@@ -97,6 +102,11 @@ export default {
             lineStyle: {
               color: 'rgba(255,255,255,.1)',
               type: 'dashed'
+            }
+          },
+          splitArea: {
+            areaStyle: {
+              color: 'transparent'
             }
           },
           axisLabel: {

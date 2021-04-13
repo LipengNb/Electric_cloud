@@ -72,8 +72,8 @@ export default {
       default: () => []
     },
     expandedRowRender: {
-      type: Array,
-      default: () => []
+      type: Function,
+      default: () => {}
     }
   },
   data() {

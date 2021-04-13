@@ -107,10 +107,10 @@
           <a style="margin-right: 8px">
             <a-icon type="plus" />新增
           </a>
-          <a style="margin-right: 8px">
+          <a v-auth="`edit`" style="margin-right: 8px">
             <a-icon type="edit" />编辑
           </a>
-          <a @click="deleteRecord(record.key)">
+          <a v-auth="`delete`" @click="deleteRecord(record.key)">
             <a-icon type="delete" />删除1
           </a>
           <a v-auth="`delete`" @click="deleteRecord(record.key)">

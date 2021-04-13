@@ -3,11 +3,15 @@
     <a-spin :spinning="loading">
       <div :class="['header-bar', size]">
         <div class="title">
-          <template v-if="title">{{ title }}</template>
+          <!-- <template v-if="title">{{ title }}</template>
           <slot v-else-if="$slots.title" name="title" />
-          <template v-else>高级表格</template>
+          <template v-else>高级表格</template> -->
         </div>
         <div class="actions">
+          <!-- 表格头部操作 -->
+          <a-button-group v-if="headerOperation">
+            <slot :name="headerOperation" />
+          </a-button-group>
           <a-tooltip title="刷新">
             <a-icon class="action" :type="loading ? 'loading' : 'reload'" @click="refresh" />
           </a-tooltip>
@@ -31,6 +35,7 @@
         :pagination="pagination"
         :row-key="rowKey"
         :size="sSize"
+        :row-selection="rowSelection"
         @expandedRowsChange="onExpandedRowsChange"
         @change="onChange"
         @expand="onExpand"
@@ -82,6 +87,7 @@ export default {
       type: [String, Function],
       default: 'id'
     },
+    headerOperation: { type: String, default: '' },
     rowSelection: { type: Object, default: () => {} },
     scroll: { type: Object, default: () => {} },
     showHeader: { type: Boolean, default: true },
@@ -137,6 +143,7 @@ export default {
       } else {
         this.inFullScreen()
       }
+      console.log(this.fullScreen)
     },
     inFullScreen() {
       const el = this.$refs.table

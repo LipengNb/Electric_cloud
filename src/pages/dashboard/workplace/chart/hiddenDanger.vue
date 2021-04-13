@@ -71,6 +71,12 @@ export default {
           right: 10,
           bottom: 30
         },
+        tooltip: {
+          trigger: 'item',
+          textStyle: {
+            color: '#fff'
+          }
+        },
         dataset: {
           source: [
             ['product', '2015', '2016', '2017'],
@@ -88,6 +94,11 @@ export default {
               color: 'rgba(255,255,255,.1)',
               type: 'dashed'
             }
+          },
+          splitArea: {
+            areaStyle: {
+              color: 'transparent'
+            }
           }
         },
         yAxis: {
@@ -97,6 +108,15 @@ export default {
               color: 'rgba(255,255,255,.1)',
               type: 'dashed'
             }
+          },
+          splitArea: {
+            areaStyle: {
+              color: 'transparent'
+            }
+          },
+          axisLabel: {
+            color: themeColor,
+            fontSize: 10
           }
         },
         series: seriseArr

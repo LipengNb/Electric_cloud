@@ -24,7 +24,7 @@ const options = {
       path: '/',
       name: '首页',
       component: TabsView,
-      redirect: '/dashboard/analysis',
+      redirect: '/dashboard/workplace',
       children: [
         {
           path: 'dashboard',

@@ -14,18 +14,44 @@ const routerMap = {
   },
   root: {
     path: '/',
-    name: '首页',
     redirect: '/login',
     component: view.tabs
   },
+  /* 首页 */
   dashboard: {
-    name: 'Dashboard',
-    component: view.blank
-  },
-  workplace: {
-    name: '工作台',
+    name: '首页',
+    meta: {
+      page: {
+        closable: false
+      }
+    },
     component: () => import('@/pages/dashboard/workplace')
   },
+  // 宿舍管理
+  room: {
+    name: '宿舍管理',
+    icon: 'control',
+    component: view.page
+  },
+  config: {
+    name: '电器配置',
+    component: () => import('@/pages/room/config')
+  },
+  // 系统配置
+  systeam: {
+    name: '系统配置',
+    icon: 'setting',
+    component: view.page
+  },
+  role: {
+    name: '角色管理',
+    component: () => import('@/pages/systeam/role')
+  },
+  account: {
+    name: '账号管理',
+    component: () => import('@/pages/systeam/account')
+  },
+  // 表单管理
   form: {
     name: '表单页',
     icon: 'form',
@@ -36,6 +62,7 @@ const routerMap = {
     name: '高级表单',
     component: () => import('@/pages/form/advance')
   },
+  // 列表
   list: {
     name: '列表页',
     icon: 'table',
@@ -55,23 +82,6 @@ const routerMap = {
     path: 'card',
     name: '卡片列表',
     component: () => import('@/pages/list/CardList')
-  },
-  searchList: {
-    path: 'search',
-    name: '搜索列表',
-    component: () => import('@/pages/list/search/SearchLayout')
-  },
-  article: {
-    name: '文章',
-    component: () => import('@/pages/list/search/ArticleList')
-  },
-  application: {
-    name: '应用',
-    component: () => import('@/pages/list/search/ApplicationList')
-  },
-  project: {
-    name: '项目',
-    component: () => import('@/pages/list/search/ProjectList')
   },
   exception: {
     name: '异常页',

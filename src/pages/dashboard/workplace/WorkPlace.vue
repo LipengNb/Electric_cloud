@@ -1,6 +1,11 @@
 <template>
   <!-- :style="{ background: 'url('+bg+') no-repeat center'}" -->
-  <div class="dashboard" :style="{ background: '#101430'}">
+  <div ref="dashboard" class="dashboard" :style="{ background: '#101430'}">
+    <div class="operation">
+      <a-tooltip title="全屏">
+        <a-icon class="action" :type="fullScreen ? 'fullscreen-exit' : 'fullscreen'" @click="toggleScreen" />
+      </a-tooltip>
+    </div>
     <a-row>
       <a-col :xl="6" :md="24">
         <div class="panel">
@@ -69,7 +74,50 @@ export default {
   data() {
     return {
       bg: require('@/assets/img/bg.jpg'),
-      themeColor: '#36ecff'
+      fullScreen: false
+    }
+  },
+  methods: {
+    toggleScreen() {
+      if (this.fullScreen) {
+        this.outFullScreen()
+      } else {
+        this.inFullScreen()
+      }
+      console.log(this.fullScreen)
+    },
+    inFullScreen() {
+      const el = this.$refs.dashboard
+      el.classList.add('beauty-scroll')
+      if (el.requestFullscreen) {
+        el.requestFullscreen()
+        return true
+      } else if (el.webkitRequestFullScreen) {
+        el.webkitRequestFullScreen()
+        return true
+      } else if (el.mozRequestFullScreen) {
+        el.mozRequestFullScreen()
+        return true
+      } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen()
+        return true
+      }
+      this.$message.warn('对不起，您的浏览器不支持全屏模式')
+      el.classList.remove('beauty-scroll')
+      return false
+    },
+    outFullScreen() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      } else if (document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen()
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen()
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen()
+      }
+      console.log(this.$refs.dashboard)
+      this.$refs.dashboard.classList.remove('beauty-scroll')
     }
   }
 }
@@ -87,6 +135,7 @@ export default {
     position: relative;
     border: 1px solid rgba(25, 186, 139, 0.17);
     background-color: rgba(255,255,255,.03);
+    box-shadow:0px 0px 16px #072058 inset;
     // 四个角 start
     &::before, &::after{
       content: '';
@@ -146,6 +195,15 @@ export default {
   }
   .table{
     margin-left: 10px;
+  }
+  .operation{
+    text-align: right;
+    font-size: 18px;
+    color: #36ecff;
+    .action{
+      padding: 10px;
+      margin-right: -10px;
+    }
   }
 }
 </style>

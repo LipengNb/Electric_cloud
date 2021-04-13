@@ -65,6 +65,10 @@ export default {
           axisTick: {
             show: false
           },
+          axisLabel: {
+            color: themeColor,
+            fontSize: 11
+          },
           nameTextStyle: {
             color: themeColor
           },
