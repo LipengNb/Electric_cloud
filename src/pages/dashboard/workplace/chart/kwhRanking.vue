@@ -45,10 +45,10 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.chart.setOption({
         grid: {
-          left: 80,
-          top: 10,
-          right: 0,
-          bottom: 0
+          top: 60,
+          left: 100,
+          right: 30,
+          bottom: 40
         },
         xAxis: {
           type: 'value',

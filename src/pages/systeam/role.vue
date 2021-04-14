@@ -51,6 +51,10 @@ export default {
           dataIndex: 'role_menu'
         },
         {
+          title: '状态',
+          dataIndex: 'enable'
+        },
+        {
           title: '操作',
           scopedSlots: { customRender: 'action' }
         }
@@ -59,7 +63,8 @@ export default {
         {
           id: 1,
           role_name: 'admin',
-          role_menu: '菜单列表可能会放一个'
+          role_menu: '菜单列表可能会放一个',
+          enable: true
         }
       ],
       loading: false,

@@ -18,12 +18,16 @@ Mock.mock(`${process.env.VUE_APP_API_BASE_URL}/routes`, 'get', () => {
       },
       {
         router: 'systeam',
-        children: [{
-          router: 'role',
-          authority: {
-            permission: 'queryForm'
-          }
-        }, 'account']
+        children: [
+          {
+            router: 'menu'
+          },
+          {
+            router: 'role',
+            authority: {
+              permission: 'queryForm'
+            }
+          }, 'account']
       },
       {
         router: 'form',
@@ -31,7 +35,12 @@ Mock.mock(`${process.env.VUE_APP_API_BASE_URL}/routes`, 'get', () => {
       },
       {
         router: 'list',
-        children: ['queryList', 'primaryList', 'cardList']
+        children: [{
+          router: 'queryList',
+          authority: {
+            permission: 'queryList'
+          }
+        }, 'primaryList', 'cardList']
       }
     ]
   }]

@@ -46,7 +46,8 @@ export default {
       this.chart.setOption({
         grid: {
           top: 0,
-          right: 0
+          left: 20,
+          right: 20
         },
         title: {
           text: '监测宿舍数\n123',
@@ -67,14 +68,13 @@ export default {
         },
         legend: {
           orient: 'vertical',
-          left: 'right',
-          top: 'bottom',
-          align: 'left',
+          right: 20,
+          bottom: 20,
           itemGap: 10,
-          itemWidth: 10,
-          itemHeight: 10,
+          itemWidth: 8,
+          itemHeight: 8,
           textStyle: {
-            fontSize: 14,
+            fontSize: 12,
             color: themeColor
           }
         },
@@ -113,7 +113,7 @@ export default {
               }
             },
             labelLayout: (params) => {
-              var isLeft = params.labelRect.x < this.chart.getWidth() / 3
+              var isLeft = params.labelRect.x < this.chart.getWidth() / 4
               var points = params.labelLinePoints
               // Update the end point.
               points[2][0] = isLeft

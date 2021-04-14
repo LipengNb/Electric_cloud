@@ -52,9 +52,10 @@ export default {
         },
         grid: {
           show: true,
-          top: 10,
-          right: 10,
-          bottom: 30,
+          top: 72,
+          left: 46,
+          right: 69,
+          bottom: 38,
           borderColor: themeColor
         },
         xAxis: {

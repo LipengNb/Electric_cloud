@@ -20,6 +20,7 @@ const routerMap = {
   /* 首页 */
   dashboard: {
     name: '首页',
+    icon: 'dashboard',
     meta: {
       page: {
         closable: false
@@ -42,6 +43,10 @@ const routerMap = {
     name: '系统配置',
     icon: 'setting',
     component: view.page
+  },
+  menu: {
+    name: '菜单管理',
+    component: () => import('@/pages/systeam/menu')
   },
   role: {
     name: '角色管理',

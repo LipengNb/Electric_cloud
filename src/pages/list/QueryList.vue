@@ -104,7 +104,7 @@
           {{ text }}
         </div>
         <div slot="action" slot-scope="{record}">
-          <a style="margin-right: 8px">
+          <a v-auth="`add`" style="margin-right: 8px">
             <a-icon type="plus" />新增
           </a>
           <a v-auth="`edit`" style="margin-right: 8px">

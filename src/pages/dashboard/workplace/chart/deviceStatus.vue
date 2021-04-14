@@ -1,5 +1,5 @@
 <template>
-  <a-row :style="{ color: '#36ecff' }" class="chart-wrap device-status">
+  <a-row :style="{ color: '#36ecff' }" class="device-status">
     <a-col :xxl="16" :xl="24" :lg="18" :md="14" class="context">
       <div class="title right-angled middle-linear">
         <span>设备总数 33</span>
@@ -145,6 +145,10 @@ export default {
 </script>
 <style lang="less" scoped>
 .device-status{
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
   .title{
     line-height: 30px;
     position: relative;
@@ -156,6 +160,7 @@ export default {
     padding: 0;
     color: #36ecff;
     list-style: none;
+    margin: 0;
     li{
       position: relative;
       padding: 0 10px;
@@ -193,7 +198,6 @@ export default {
     }
   }
   .context{
-    height: 240px;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -9,16 +9,16 @@
     <a-row>
       <a-col :xl="6" :md="24">
         <div class="panel">
-          <h2>设备状态</h2>
-          <device-status height="240px" />
-          <div class="panel-footer" />
+          <!-- <h2>设备状态</h2> -->
+          <div class="chart-wrap" :style="panel_bg">
+            <device-status height="280px" />
+          </div>
         </div>
         <div class="panel">
-          <h2>检测状态</h2>
-          <div class="chart-wrap">
-            <watch-status height="240px" />
+          <!-- <h2>检测状态</h2> -->
+          <div class="chart-wrap" :style="panel_bg">
+            <watch-status height="280px" />
           </div>
-          <div class="panel-footer" />
         </div>
       </a-col>
       <a-col :xl="12" :md="24">
@@ -26,29 +26,26 @@
       </a-col>
       <a-col :xl="6" :md="24">
         <div class="panel">
-          <h2>七天用电排行</h2>
-          <div class="chart-wrap">
-            <kwh-ranking height="240px" />
+          <!-- <h2>七天用电排行</h2> -->
+          <div class="chart-wrap" :style="panel_bg">
+            <kwh-ranking height="280px" />
           </div>
-          <div class="panel-footer" />
         </div>
         <div class="panel">
-          <h2>隐患时间分布</h2>
-          <div class="chart-wrap">
-            <hidden-danger height="240px" />
+          <!-- <h2>隐患时间分布</h2> -->
+          <div class="chart-wrap" :style="panel_bg">
+            <hidden-danger height="280px" />
           </div>
-          <div class="panel-footer" />
         </div>
       </a-col>
     </a-row>
     <a-row>
       <a-col :xl="6">
         <div class="panel">
-          <h2>总功率趋势</h2>
-          <div class="chart-wrap">
-            <power-trend height="240px" />
+          <!-- <h2>总功率趋势</h2> -->
+          <div class="chart-wrap" :style="panel_bg">
+            <power-trend height="280px" />
           </div>
-          <div class="panel-footer" />
         </div>
       </a-col>
       <a-col :xl="18">
@@ -74,6 +71,8 @@ export default {
   data() {
     return {
       bg: require('@/assets/img/bg.jpg'),
+      panel_bg: { background: 'url(' + require('@/assets/img/pane_bg.png') + ') no-repeat' },
+      panel_bg_active: { background: 'url(' + require('@/assets/img/pane_bg_active.png') + ') no-repeat' },
       fullScreen: false
     }
   },
@@ -125,35 +124,11 @@ export default {
 <style lang="less" scoped>
 @color: #36ecff;
 .dashboard{
-  padding: 10px;
+  padding: 16px;
   background-size: 100% 100% !important;
   .panel{
-    display: flex;
-    flex-direction: column;
-    min-height: 300px;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
     position: relative;
-    border: 1px solid rgba(25, 186, 139, 0.17);
-    background-color: rgba(255,255,255,.03);
-    box-shadow:0px 0px 16px #072058 inset;
-    // 四个角 start
-    &::before, &::after{
-      content: '';
-      width: 10px;
-      height: 10px;
-      position: absolute;
-      top: 0;
-      border: 2px solid @color;
-      border-bottom: none;
-    }
-    &::after{
-      right: 0;
-      border-left: none;
-    }
-    &::before{
-      left: 0;
-      border-right: none;
-    }
     .panel-footer{
       position: absolute;
       bottom: 0;
@@ -184,9 +159,11 @@ export default {
       color: @color;
     }
     .chart-wrap{
-      flex: 1;
-      padding: 0 10px;
       box-sizing: border-box;
+      background-size: 100% 100% !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .center{

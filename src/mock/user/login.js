@@ -17,17 +17,21 @@ Mock.mock(`${process.env.VUE_APP_API_BASE_URL}/login`, 'post', ({ body }) => {
     success = true
     result.data.permissions = [
       { id: 'queryForm', operation: ['add', 'edit'] },
-      { id: 'queryList', operation: ['edit', 'add'] }
+      { id: 'queryList', operation: ['edit', 'add', 'delete'] }
     ]
-    result.data.roles = [{ id: 'admin', operation: ['add', 'edit', 'delete'] }]
+    result.data.roles = [
+      { id: 'admin', operation: ['add', 'edit', 'delete'] },
+      { id: 'queryList', operation: ['edit', 'add', 'delete'] }
+    ]
   } else if (name === 'test' || password === '888888') {
     success = true
     result.data.permissions = [
       { id: 'queryForm', operation: ['add', 'edit'] },
-      { id: 'queryList', operation: ['edit', 'add'] }
+      { id: 'queryList', operation: ['edit', 'delete'] }
     ]
     result.data.roles = [
-      { id: 'test', operation: ['add', 'edit', 'delete'] }
+      { id: 'test', operation: ['add', 'edit', 'delete'] },
+      { id: 'queryList', operation: ['edit', 'delete'] }
     ]
   } else {
     success = false

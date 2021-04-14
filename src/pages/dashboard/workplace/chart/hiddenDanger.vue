@@ -67,9 +67,10 @@ export default {
       }
       this.chart.setOption({
         grid: {
-          top: 10,
-          right: 10,
-          bottom: 30
+          top: 56,
+          left: 30,
+          right: 46,
+          bottom: 76
         },
         tooltip: {
           trigger: 'item',

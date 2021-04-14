@@ -101,7 +101,7 @@ export default {
     afterLogin(res) {
       this.logging = false
       const loginRes = res.data
-      if (loginRes.code >= 0) {
+      if (loginRes.code === 0) {
         const { user, permissions, roles } = loginRes.data
         this.setUser(user)
         this.setPermissions(permissions)
