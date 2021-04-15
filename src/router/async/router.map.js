@@ -46,6 +46,24 @@ const routerMap = {
   },
   menu: {
     name: '菜单管理',
+    btns: [
+      {
+        label: '创建',
+        value: 'add'
+      },
+      {
+        label: '删除',
+        value: 'delete'
+      },
+      {
+        label: '修改',
+        value: 'edit'
+      },
+      {
+        label: '导出',
+        value: 'export'
+      }
+    ],
     component: () => import('@/pages/systeam/menu')
   },
   role: {
@@ -55,43 +73,6 @@ const routerMap = {
   account: {
     name: '账号管理',
     component: () => import('@/pages/systeam/account')
-  },
-  // 表单管理
-  form: {
-    name: '表单页',
-    icon: 'form',
-    component: view.page
-  },
-  advanceForm: {
-    path: 'advance',
-    name: '高级表单',
-    component: () => import('@/pages/form/advance')
-  },
-  // 列表
-  list: {
-    name: '列表页',
-    icon: 'table',
-    component: view.page
-  },
-  queryList: {
-    path: 'query',
-    name: '查询表格',
-    component: () => import('@/pages/list/QueryList')
-  },
-  primaryList: {
-    path: 'primary',
-    name: '标准列表',
-    component: () => import('@/pages/list/StandardList')
-  },
-  cardList: {
-    path: 'card',
-    name: '卡片列表',
-    component: () => import('@/pages/list/CardList')
-  },
-  exception: {
-    name: '异常页',
-    icon: 'warning',
-    component: view.blank
   },
   exp403: {
     authority: '*',

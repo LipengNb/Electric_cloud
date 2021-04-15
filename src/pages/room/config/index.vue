@@ -17,9 +17,7 @@
         onChange: onPageChange,
         onShowSizeChange: onSizeChange,
       }"
-      @search="onSearch"
       @refresh="onRefresh"
-      @reset="onReset"
     />
   </div>
 </template>
@@ -168,9 +166,7 @@ export default {
     }, 1000)
   },
   methods: {
-    onSearch() {},
     onRefresh() {},
-    onReset() {},
     onPageChange() {},
     onSizeChange() {}
   }

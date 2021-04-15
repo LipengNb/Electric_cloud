@@ -53,7 +53,8 @@ function parseRoutes(routesConfig, routerMap) {
         authority: routeCfg.authority || router.authority || routeCfg.meta?.authority || router.meta?.authority || '*',
         icon: routeCfg.icon || router.icon || routeCfg.meta?.icon || router.meta?.icon,
         page: routeCfg.page || router.page || routeCfg.meta?.page || router.meta?.page,
-        link: routeCfg.link || router.link || routeCfg.meta?.link || router.meta?.link
+        link: routeCfg.link || router.link || routeCfg.meta?.link || router.meta?.link,
+        btns: routeCfg.btns || router.btns || routeCfg.meta?.btns || router.meta?.btns
       }
     }
     if (routeCfg.invisible || router.invisible) {

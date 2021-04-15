@@ -17,7 +17,7 @@
           </a-tooltip>
           <action-size v-model="sSize" class="action" />
           <a-tooltip title="列配置">
-            <action-columns :columns="columns" class="action" @reset="onColumnsReset">
+            <action-columns :columns="columns" class="action">
               <template v-for="slot in slots" :slot="slot">
                 <slot :name="slot" />
               </template>
@@ -88,7 +88,14 @@ export default {
       default: 'id'
     },
     headerOperation: { type: String, default: '' },
-    rowSelection: { type: Object, default: () => {} },
+    rowSelection: {
+      type: Object,
+      default: () => {
+        return {
+          type: 'checkbox'
+        }
+      }
+    },
     scroll: { type: Object, default: () => {} },
     showHeader: { type: Boolean, default: true },
     size: { type: String, default: '' },
@@ -133,10 +140,6 @@ export default {
     refresh() {
       this.$emit('refresh', this.conditions)
     },
-    onSearchChange(conditions, searchOptions) {
-      this.conditions = conditions
-      this.$emit('search', conditions, searchOptions)
-    },
     toggleScreen() {
       if (this.fullScreen) {
         this.outFullScreen()
@@ -176,9 +179,6 @@ export default {
         document.msExitFullscreen()
       }
       this.$refs.table.classList.remove('beauty-scroll')
-    },
-    onColumnsReset(conditions) {
-      this.$emit('reset', conditions)
     },
     onExpandedRowsChange(expandedRows) {
       this.$emit('expandedRowsChange', expandedRows)
