@@ -5,7 +5,7 @@
     :width="modalWidth"
     :visible="visible"
     :confirm-loading="loading"
-    :maskClosable="false"
+    :mask-closable="false"
     @ok="$emit('submit')"
     @cancel="handleCancel"
   >
@@ -33,11 +33,11 @@ export default {
     },
     modalWidth: {
       type: [String, Number],
-      default: 520
+      default: 600
     },
     contentHeight: {
       type: String,
-      default: '500px'
+      default: 'auto'
     }
   },
   data() {

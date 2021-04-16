@@ -1,47 +1,38 @@
 <template>
   <div>
     <advance-table
-      :columns="roleTable.roleColumns"
-      :data-source="roleTable.roleData"
+      :columns="table.columns"
+      :data-source="table.data"
       title="角色列表"
-      :loading="roleTable.loading"
+      :loading="table.loading"
       header-operation="operation"
-      row-key="path"
+      row-key="id"
       :pagination="{
-        current: roleTable.page,
-        pageSize: roleTable.pageSize,
-        total: roleTable.total,
+        current: table.page,
+        pageSize: table.pageSize,
+        total: table.total,
         showSizeChanger: true,
         showLessItems: true,
         showQuickJumper: true,
-        showTotal: (total, range) => `总计 ${roleTable.total} 条`,
+        showTotal: (total, range) => `总计 ${table.total} 条`,
         onChange: onPageChange,
         onShowSizeChange: onSizeChange,
       }"
-      @refresh="onRefresh"
+      @refresh="getAccounts"
     >
       <template slot="operation">
         <a-button v-auth="`add`" icon="plus" @click="handleCreate">创建</a-button>
       </template>
-      <span slot="icon" slot-scope="{ record }">
-        <a-icon v-if="record.meta.icon" :type="record.meta.icon" />
-      </span>
-      <span slot="role" slot-scope="{ record }">
-        <a-tag color="purple">{{ record.meta.authority.permission }}</a-tag>
-      </span>
-      <span slot="btns" slot-scope="{ record }">
-        <a-tag v-for="item in record.meta.btns" :key="item.value">{{ item.label }}</a-tag>
-      </span>
+      <template slot="gender" slot-scope="{ record }">
+        {{ record.gender === 'woman' ? '女' : '男' }}
+      </template>
       <span slot="enable" slot-scope="{ record }">
-        <a-switch checked-children="显" un-checked-children="隐" :checked="!record.meta.invisible" />
+        <a-switch checked-children="显" un-checked-children="隐" :checked="!record.enable" />
       </span>
       <span slot="time">
         2021-04-14
       </span>
       <span slot="action" slot-scope="{record}">
-        <a-button v-auth="`add`" type="link" @click="handleEdit(record)">
-          添加子集
-        </a-button>
         <a-button v-auth="`edit`" type="link" @click="handleEdit(record)">
           编辑
         </a-button>
@@ -55,129 +46,129 @@
       @ok="handleSubmit"
       @cancel="handleCancel"
     >
-      <a-form-model ref="menuForm" :model="form" :rules="rules" :label-col="{ span: 4 }" :wrapper-col="{ span: 14 }">
-        <a-form-model-item label="菜单标题" prop="name">
-          <a-input v-model="form.name" placeholder="输入标题" />
+      <a-form-model ref="form" :model="form" :rules="rules" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
+        <a-form-model-item label="账号" prop="account">
+          <a-input v-model="form.account" placeholder="输入账号" />
         </a-form-model-item>
-        <a-form-model-item label="图标" prop="icon">
-          <a-input v-model="form.icon" placeholder="输入图标" />
+        <a-form-model-item label="角色名称" prop="role_name">
+          <a-select v-model="form.role_name" placeholder="选择角色">
+            <a-select-option v-for="item in roles" :key="item" :value="item">
+              {{ item }}
+            </a-select-option>
+          </a-select>
         </a-form-model-item>
-        <a-form-model-item label="顺序" prop="sort">
-          <a-input-number id="inputNumber" v-model="form.sort" placeholder="输入顺序" :min="1" :max="10" />
+        <a-form-model-item label="昵称" prop="nickname">
+          <a-input v-model="form.nickname" placeholder="输入昵称" />
         </a-form-model-item>
-        <a-form-model-item label="权限标识" prop="role">
-          <a-input v-model="form.role" placeholder="输入权限标识" />
+        <a-form-model-item label="性别" prop="gender">
+          <a-radio-group v-model="form.gender">
+            <a-radio value="man">男</a-radio>
+            <a-radio value="woman">女</a-radio>
+          </a-radio-group>
         </a-form-model-item>
-        <a-form-model-item label="组件路径" prop="fullPath">
-          <a-input v-model="form.fullPath" placeholder="输入组件路径 例：/path" />
+        <a-form-model-item label="电话" prop="phone">
+          <a-input v-model="form.phone" placeholder="输入电话号码" />
         </a-form-model-item>
-        <a-form-model-item label="按钮权限" prop="btns">
-          <a-checkbox-group v-model="form.btns">
-            <a-checkbox v-for="item in btns" :key="item.value" :value="item.value">{{ item.label }}</a-checkbox>
-          </a-checkbox-group>
+        <a-form-model-item label="邮箱" prop="email">
+          <a-input v-model="form.email" placeholder="输入电话号码" />
         </a-form-model-item>
-        <a-form-model-item label="是否可见" prop="enable">
-          <a-switch v-model="form.enable" checked-children="显" un-checked-children="隐" />
+        <a-form-model-item label="禁启用" prop="enable">
+          <a-switch v-model="form.enable" checked-children="启用" un-checked-children="禁用" />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
   </div>
 </template>
 <script>
+import { accounts } from '@/services/systeam'
 import AdvanceTable from '@/components/table/advance/AdvanceTable'
 export default {
   components: {
     AdvanceTable
   },
   data() {
-    const roleTable = {
-      roleColumns: [
+    const table = {
+      columns: [
         {
-          title: '菜单标题',
-          dataIndex: 'name'
+          title: '账号',
+          dataIndex: 'account'
         },
         {
-          title: '图标',
-          scopedSlots: { customRender: 'icon' }
+          title: '角色名称',
+          dataIndex: 'role_name'
         },
         {
-          title: '排序',
-          dataIndex: 'sort'
+          title: '昵称',
+          dataIndex: 'nickname'
         },
         {
-          title: '权限标识',
-          scopedSlots: { customRender: 'role' }
+          title: '性别',
+          scopedSlots: { customRender: 'gender' }
         },
         {
-          title: '按钮权限',
-          scopedSlots: { customRender: 'btns' }
+          title: '电话',
+          dataIndex: 'phone'
         },
         {
-          title: '组件路径',
-          dataIndex: 'fullPath'
-        },
-        {
-          title: '是否可见',
-          scopedSlots: { customRender: 'enable' }
+          title: '邮箱',
+          dataIndex: 'email'
         },
         {
           title: '创建日期',
-          scopedSlots: { customRender: 'time' }
+          dataIndex: 'create_time'
+        },
+        {
+          title: '禁启用',
+          scopedSlots: { customRender: 'enable' }
         },
         {
           title: '操作',
           scopedSlots: { customRender: 'action' }
         }
       ],
-      roleData: [],
+      data: [],
       loading: false,
       page: 1,
       pageSize: 10,
       total: 10
     }
     return {
-      roleTable: roleTable,
+      table: table,
       title: '',
       visible: false,
       confirmLoading: false,
       form: {
-        name: '',
-        icon: '',
-        sort: '',
-        role: '',
-        fullPath: '',
-        btns: [],
+        account: '',
+        role_name: undefined,
+        nickname: '',
+        gender: 'woman',
+        phone: '',
+        email: '',
+        create_time: '',
         enable: true
       },
       rules: {},
-      btns: [
-        {
-          label: '创建',
-          value: 'add'
-        },
-        {
-          label: '删除',
-          value: 'delete'
-        },
-        {
-          label: '修改',
-          value: 'edit'
-        },
-        {
-          label: '导出',
-          value: 'export'
-        }
-      ]
+      roles: ['admin', 'service', 'user']
 
     }
   },
   mounted() {
-    const routes = this.$router.options.routes
-    const menus = routes.filter(item => item.path === '/')
-    this.roleTable.roleData = menus[0].children
-    console.log('menu', this.roleTable.roleData)
+    this.getAccounts()
   },
   methods: {
+    async getAccounts() {
+      const table = this.table
+      table.loading = true
+      const res = await accounts()
+      table.loading = false
+      console.log(res)
+      const { code, data, message } = res.data
+      if (code !== 0) {
+        this.$message.error(message)
+        return
+      }
+      table.data = data.list
+    },
     handleSubmit() {
       this.$refs.menuForm.validate(valid => {
         if (!valid) return
@@ -195,24 +186,23 @@ export default {
     },
     handleEdit(data) {
       this.visible = true
-      this.title = data.name
-      console.log(data)
-      this.form = {
-        name: data.name,
-        role: data.meta.authority.permission,
-        fullPath: data.fullPath,
-        btns: data.meta.btns && data.meta.btns.map(item => item.value),
-        enable: !data.meta?.invisible
-      }
+      this.title = '账号编辑'
+      this.$nextTick(() => {
+        this.form = { ...data }
+      })
     },
     handleCreate() {
+      this.reset()
       this.visible = true
-      this.title = '创建菜单'
+      this.title = '创建账号'
     },
     // table组件事件
     onRefresh() {},
     onPageChange() {},
-    onSizeChange() {}
+    onSizeChange() {},
+    reset() {
+      this.$refs.form && this.$refs.form.resetFields()
+    }
   }
 }
 </script>

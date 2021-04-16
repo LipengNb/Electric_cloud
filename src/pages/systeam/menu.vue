@@ -1,45 +1,49 @@
 <template>
   <div>
     <advance-table
-      :columns="roleTable.roleColumns"
-      :data-source="roleTable.roleData"
+      :columns="table.columns"
+      :data-source="table.data"
       title="角色列表"
-      :loading="roleTable.loading"
+      :loading="table.loading"
       header-operation="operation"
-      row-key="path"
+      row-key="router"
       :pagination="{
-        current: roleTable.page,
-        pageSize: roleTable.pageSize,
-        total: roleTable.total,
+        current: table.page,
+        pageSize: table.pageSize,
+        total: table.total,
         showSizeChanger: true,
         showLessItems: true,
         showQuickJumper: true,
-        showTotal: (total, range) => `总计 ${roleTable.total} 条`,
+        showTotal: (total, range) => `总计 ${table.total} 条`,
         onChange: onPageChange,
         onShowSizeChange: onSizeChange,
       }"
-      @refresh="onRefresh"
+      @refresh="getMenus"
     >
       <template slot="operation">
         <a-button v-auth="`add`" icon="plus" @click="handleCreate">创建</a-button>
       </template>
       <span slot="icon" slot-scope="{ record }">
-        <a-icon v-if="record.meta.icon" :type="record.meta.icon" />
+        <a-icon v-if="record.icon" :type="record.icon" />
+        <a-icon v-else type="minus" />
       </span>
       <span slot="role" slot-scope="{ record }">
-        <a-tag color="purple">{{ record.meta.authority.permission }}</a-tag>
+        <a-tag color="purple">{{ record.authority }}</a-tag>
       </span>
-      <span slot="btns" slot-scope="{ record }">
-        <a-tag v-for="item in record.meta.btns" :key="item.value">{{ item.label }}</a-tag>
+      <span slot="btn_perms" slot-scope="{ record }">
+        <template v-if="record.btn_perms">
+          <a-tag v-for="item in match(record.btn_perms)" :key="item.value">{{ item.label }}</a-tag>
+        </template>
+        <a-icon v-else type="minus" />
       </span>
       <span slot="enable" slot-scope="{ record }">
-        <a-switch checked-children="显" un-checked-children="隐" :checked="!record.meta.invisible" />
+        <a-switch checked-children="显" un-checked-children="隐" :checked="!record.invisible" />
       </span>
       <span slot="time">
         2021-04-14
       </span>
-      <span slot="action" slot-scope="{record}">
-        <a-button v-auth="`add`" type="link" @click="handleEdit(record)">
+      <span slot="action" slot-scope="{ record }">
+        <a-button v-auth="`add`" type="link" @click="handleAddChild(record)">
           添加子集
         </a-button>
         <a-button v-auth="`edit`" type="link" @click="handleEdit(record)">
@@ -49,7 +53,7 @@
     </advance-table>
     <!-- 创建/编辑 -->
     <Modal :visible.sync="visible" :title="title" @submit="handleSubmit">
-      <a-form-model ref="menuForm" :model="form" :rules="rules" :label-col="{ span: 4 }" :wrapper-col="{ span: 14 }">
+      <a-form-model ref="menuForm" :model="form" :rules="rules" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
         <a-form-model-item label="菜单标题" prop="name">
           <a-input v-model="form.name" placeholder="输入标题" />
         </a-form-model-item>
@@ -59,14 +63,14 @@
         <a-form-model-item label="顺序" prop="sort">
           <a-input-number id="inputNumber" v-model="form.sort" placeholder="输入顺序" :min="1" :max="10" />
         </a-form-model-item>
-        <a-form-model-item label="权限标识" prop="role">
-          <a-input v-model="form.role" placeholder="输入权限标识" />
+        <a-form-model-item label="权限标识" prop="authority">
+          <a-input v-model="form.authority" placeholder="输入权限标识" />
         </a-form-model-item>
-        <a-form-model-item label="组件路径" prop="fullPath">
-          <a-input v-model="form.fullPath" placeholder="输入组件路径 例：/path" />
+        <a-form-model-item label="路由名称" prop="router">
+          <a-input v-model="form.router" placeholder="输入路由名称" />
         </a-form-model-item>
-        <a-form-model-item label="按钮权限" prop="btns">
-          <a-checkbox-group v-model="form.btns">
+        <a-form-model-item v-show="isShowBtnPerms" label="按钮权限" prop="btns">
+          <a-checkbox-group v-model="form.btn_perms">
             <a-checkbox v-for="item in btns" :key="item.value" :value="item.value">{{ item.label }}</a-checkbox>
           </a-checkbox-group>
         </a-form-model-item>
@@ -78,6 +82,9 @@
   </div>
 </template>
 <script>
+import { menus } from '@/services/systeam'
+// import routerMap from '@/router/async/router.map'
+// import { parseRoutes } from '@/utils/routerUtil'
 import Modal from '@/components/modal/modal'
 import AdvanceTable from '@/components/table/advance/AdvanceTable'
 export default {
@@ -86,8 +93,8 @@ export default {
     Modal
   },
   data() {
-    const roleTable = {
-      roleColumns: [
+    const table = {
+      columns: [
         {
           title: '菜单标题',
           dataIndex: 'name'
@@ -105,12 +112,12 @@ export default {
           scopedSlots: { customRender: 'role' }
         },
         {
-          title: '按钮权限',
-          scopedSlots: { customRender: 'btns' }
+          title: '路由名称',
+          dataIndex: 'router'
         },
         {
-          title: '组件路径',
-          dataIndex: 'fullPath'
+          title: '按钮权限',
+          scopedSlots: { customRender: 'btn_perms' }
         },
         {
           title: '是否可见',
@@ -125,24 +132,25 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      roleData: [],
+      data: [],
       loading: false,
       page: 1,
       pageSize: 10,
       total: 10
     }
     return {
-      roleTable: roleTable,
+      table: table,
       title: '',
       visible: false,
       confirmLoading: false,
       form: {
+        pid: 0,
         name: '',
         icon: '',
         sort: '',
-        role: '',
-        fullPath: '',
-        btns: [],
+        authority: '',
+        router: '',
+        btn_perms: [],
         enable: true
       },
       rules: {},
@@ -162,22 +170,38 @@ export default {
         {
           label: '导出',
           value: 'export'
+        },
+        {
+          label: '添加子集',
+          value: 'add_child'
         }
-      ]
-
+      ],
+      isShowBtnPerms: true
     }
   },
   mounted() {
-    const routes = this.$router.options.routes
-    const menus = routes.filter(item => item.path === '/')
-    this.roleTable.roleData = menus[0].children
-    console.log('menu', this.roleTable.roleData)
+    this.getMenus()
   },
   methods: {
+    // 表格数据
+    async getMenus() {
+      const table = this.table
+      table.loading = true
+      const res = await menus()
+      table.loading = false
+      const { code, data, message } = res.data
+      if (code !== 0) {
+        this.$message.error(message)
+        return
+      }
+      table.data = this.toTree(data)
+    },
+    // 提交
     handleSubmit() {
-      this.$refs.menuForm.validate(valid => {
+      this.$refs.form.validate(valid => {
         if (!valid) return
         this.confirmLoading = true
+        console.log(JSON.parse(JSON.stringify(this.form)))
         setTimeout(() => {
           this.confirmLoading = false
           this.visible = false
@@ -186,29 +210,64 @@ export default {
         // console.log(this.form)
       })
     },
-    handleCancel() {
-      this.visible = false
-    },
-    handleEdit(data) {
-      this.visible = true
-      this.title = data.name
-      console.log(data)
-      this.form = {
-        name: data.name,
-        role: data.meta.authority.permission,
-        fullPath: data.fullPath,
-        btns: data.meta.btns && data.meta.btns.map(item => item.value),
-        enable: !data.meta?.invisible
-      }
-    },
+    // 创建
     handleCreate() {
+      this.reset()
       this.visible = true
       this.title = '创建菜单'
+      this.form.pid = 0
+      this.isShowBtnPerms = false
+    },
+    // 添加子集
+    handleAddChild(item) {
+      this.reset()
+      this.visible = true
+      this.isShowBtnPerms = true
+      this.title = `创建 ${item.name} 子集菜单`
+      this.form.pid = item.id
+    },
+    // 编辑
+    handleEdit(item) {
+      this.visible = true
+      this.isShowBtnPerms = item.pid !== 0
+      this.title = item.name
+      this.$nextTick(() => {
+        this.form = { ...item }
+      })
     },
     // table组件事件
-    onRefresh() {},
     onPageChange() {},
-    onSizeChange() {}
+    onSizeChange() {},
+    toTree(array) {
+      const obj = {}
+      const newArray = []
+      array.map(item => {
+        obj[item.id] = item
+      })
+      for (let i = 0; i < array.length; i++) {
+        const item = array[i]
+        const parent = obj[item.pid]
+        if (parent) {
+          if (parent.children) {
+            parent.children.push(item)
+          } else {
+            parent.children = []
+            parent.children.push(item)
+          }
+        } else {
+          newArray.push(item)
+        }
+      }
+      return newArray
+    },
+    match(perms) {
+      const btns = this.btns
+      if (!perms || !Array.isArray(perms)) return []
+      return btns.filter(item => perms.includes(item.value))
+    },
+    reset() {
+      this.$refs.menuForm && this.$refs.menuForm.resetFields()
+    }
   }
 }
 </script>

@@ -116,7 +116,8 @@ export default {
       id: `${new Date().getTime()}-${Math.floor(Math.random() * 10)}`,
       sSize: this.size || 'default',
       fullScreen: false,
-      conditions: {}
+      conditions: {},
+      isInit: 0
     }
   },
   computed: {
@@ -130,6 +131,11 @@ export default {
       return this.columns.filter(col => col.visible)
     }
   },
+  watch: {
+    loading(bool) {
+      (!bool && this.isInit) && this.$message.success('刷新成功!')
+    }
+  },
   created() {
     this.addListener()
   },
@@ -138,6 +144,7 @@ export default {
   },
   methods: {
     refresh() {
+      this.isInit++
       this.$emit('refresh', this.conditions)
     },
     toggleScreen() {
