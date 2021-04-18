@@ -1,17 +1,19 @@
 export default {
   methods: {
     onSelectAll(selected) {
+      const selection = this.rowSelection
       if (selected) {
-        const tabData = this.menusData
+        const menusData = this.menusData
         const arr = []
-        setVal(tabData, arr)
-        this.rowSelection.selectedRowKeys = arr
+        setVal(menusData, arr)
+        console.log(arr)
+        selection.selectedRowKeys = arr
       } else {
-        this.rowSelection.selectedRowKeys = []
+        selection.selectedRowKeys = []
       }
       function setVal(list, arr) {
         list.forEach(v => {
-          arr.push(v.pid)
+          arr.push(v.id)
           if (v.children) {
             setVal(v.children, arr)
           }
@@ -19,46 +21,47 @@ export default {
       }
     },
     onSelect(record, selected) {
-      const set = new Set(this.rowSelection.selectedRowKeys)
+      const selection = this.rowSelection
+      const set = new Set(selection.selectedRowKeys)
       const tabData = this.menusData
-      const pid = record.pid
+      const id = record.id
       if (selected) {
-        set.add(pid)
+        set.add(id)
         record.children && setChildCheck(record.children)
-        setParentCheck(pid)
+        setParentCheck(id)
       } else {
-        set.delete(pid)
+        set.delete(id)
         record.children && setChildUncheck(record.children)
-        setParentUncheck(pid)
+        setParentUncheck(id)
       }
-      this.rowSelection.selectedRowKeys = Array.from(set)
+      selection.selectedRowKeys = Array.from(set)
       // 设置父级选择
-      function setParentCheck(pid) {
-        const parent = getParent(pid)
+      function setParentCheck(id) {
+        const parent = getParent(id)
         if (parent) {
-          set.add(parent.pid)
-          setParentCheck(parent.pid)
+          set.add(parent.id)
+          setParentCheck(parent.id)
         }
       }
       // 设置父级取消，如果父级的子集有选择，则不取消
-      function setParentUncheck(pid) {
+      function setParentUncheck(id) {
         let childHasCheck = false
-        const parent = getParent(pid)
+        const parent = getParent(id)
         if (parent) {
           const childlist = parent.children
           childlist.forEach(function(v) {
-            if (set.has(v.pid)) childHasCheck = true
+            if (set.has(v.id)) childHasCheck = true
           })
           if (!childHasCheck) {
-            set.delete(parent.pid)
-            setParentUncheck(parent.pid)
+            set.delete(parent.id)
+            setParentUncheck(parent.id)
           }
         }
       }
       // 获取当前对象的父级
-      function getParent(pid) {
+      function getParent(id) {
         for (let i = 0; i < tabData.length; i++) {
-          if (tabData[i].pid === pid) {
+          if (tabData[i].id === id) {
             return null
           }
         }
@@ -69,7 +72,7 @@ export default {
           for (let i = 0; i < list.length; i++) {
             if ((childlist = list[i].children)) {
               childlist.forEach(function(v) {
-                if (v.pid === pid) isExist = true
+                if (v.id === id) isExist = true
               })
               if (isExist) {
                 return list[i]

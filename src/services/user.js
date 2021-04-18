@@ -8,10 +8,6 @@ import { request, METHOD, removeAuthorization } from '@/utils/request'
  * @returns {Promise<AxiosResponse<T>>}
  */
 export async function login(name, password) {
-  // return request(`${LOGIN}/v1/account/user/loginUser`, METHOD.POST, {
-  //   account: name,
-  //   password: password
-  // })
   return request(`${LOGIN}`, METHOD.POST, {
     account: name,
     password: password
