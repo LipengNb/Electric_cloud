@@ -30,7 +30,6 @@ function setAppOptions(options) {
 function parseRoutes(routesConfig, routerMap) {
   const routes = []
   routesConfig.forEach(item => {
-    console.log(item)
     // 获取注册在 routerMap 中的 router，初始化 routeCfg
     let router; let routeCfg = {}
     if (typeof item === 'string') {

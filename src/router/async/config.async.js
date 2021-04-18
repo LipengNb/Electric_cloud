@@ -14,8 +14,7 @@ const routesConfig = [
     router: 'exp403',
     path: '/403',
     name: '403'
-  },
-  'root'
+  }
 ]
 
 const options = {

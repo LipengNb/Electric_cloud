@@ -42,36 +42,22 @@ const routerMap = {
   systeam: {
     name: '系统配置',
     icon: 'setting',
+    authority: '*',
     component: view.page
   },
   menu: {
     name: '菜单管理',
-    btns: [
-      {
-        label: '创建',
-        value: 'add'
-      },
-      {
-        label: '删除',
-        value: 'delete'
-      },
-      {
-        label: '修改',
-        value: 'edit'
-      },
-      {
-        label: '导出',
-        value: 'export'
-      }
-    ],
+    authority: '*',
     component: () => import('@/pages/systeam/menu')
   },
   role: {
     name: '角色管理',
+    authority: '*',
     component: () => import('@/pages/systeam/role')
   },
   account: {
     name: '账号管理',
+    authority: '*',
     component: () => import('@/pages/systeam/account')
   },
   exp403: {

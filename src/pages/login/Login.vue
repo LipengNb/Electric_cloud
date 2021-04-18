@@ -69,6 +69,7 @@ import { login, getRoutesConfig } from '@/services/user'
 import { setAuthorization } from '@/utils/request'
 import { loadRoutes } from '@/utils/routerUtil'
 import { mapMutations } from 'vuex'
+import { toTree } from '@/utils/util'
 
 export default {
   name: 'Login',
@@ -109,7 +110,12 @@ export default {
         setAuthorization({ token: loginRes.data.token, expireAt: new Date(loginRes.data.expireAt) })
         // 获取路由配置
         getRoutesConfig().then(result => {
-          const routesConfig = result.data.data
+          const routesConfig = [
+            {
+              router: 'root',
+              children: toTree(result.data.data)
+            }
+          ]
           loadRoutes(routesConfig)
           this.$router.push('/dashboard')
           this.$message.success(loginRes.message, 3)

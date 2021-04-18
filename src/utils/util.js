@@ -74,3 +74,27 @@ export function debounce(func, wait, immediate) {
     return result
   }
 }
+
+export function toTree(array, key = '_id') {
+  const obj = {}
+  const newArray = []
+  array.map(item => {
+    obj[item[key]] = item
+  })
+  for (let i = 0; i < array.length; i++) {
+    const item = array[i]
+    const parent = obj[item.pid]
+    if (parent) {
+      if (parent.children) {
+        parent.children.push(item)
+      } else {
+        parent.children = []
+        parent.children.push(item)
+      }
+    } else {
+      newArray.push(item)
+    }
+  }
+  return newArray
+}
+

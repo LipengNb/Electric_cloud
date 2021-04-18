@@ -18,7 +18,7 @@
         onChange: onPageChange,
         onShowSizeChange: onSizeChange,
       }"
-      @refresh="getMenus"
+      @refresh="getRoutes"
     >
       <template slot="operation">
         <a-button v-auth="`add`" icon="plus" @click="handleCreate">创建</a-button>
@@ -82,9 +82,10 @@
   </div>
 </template>
 <script>
-import { menus } from '@/services/systeam'
+import { routes } from '@/services/systeam'
 // import routerMap from '@/router/async/router.map'
 // import { parseRoutes } from '@/utils/routerUtil'
+import { toTree } from '@/utils/util'
 import Modal from '@/components/modal/modal'
 import AdvanceTable from '@/components/table/advance/AdvanceTable'
 export default {
@@ -180,21 +181,21 @@ export default {
     }
   },
   mounted() {
-    this.getMenus()
+    this.getRoutes()
   },
   methods: {
     // 表格数据
-    async getMenus() {
+    async getRoutes() {
       const table = this.table
       table.loading = true
-      const res = await menus()
+      const res = await routes()
       table.loading = false
       const { code, data, message } = res.data
       if (code !== 0) {
         this.$message.error(message)
         return
       }
-      table.data = this.toTree(data)
+      table.data = toTree(data)
     },
     // 提交
     handleSubmit() {
@@ -238,28 +239,6 @@ export default {
     // table组件事件
     onPageChange() {},
     onSizeChange() {},
-    toTree(array) {
-      const obj = {}
-      const newArray = []
-      array.map(item => {
-        obj[item.id] = item
-      })
-      for (let i = 0; i < array.length; i++) {
-        const item = array[i]
-        const parent = obj[item.pid]
-        if (parent) {
-          if (parent.children) {
-            parent.children.push(item)
-          } else {
-            parent.children = []
-            parent.children.push(item)
-          }
-        } else {
-          newArray.push(item)
-        }
-      }
-      return newArray
-    },
     match(perms) {
       const btns = this.btns
       if (!perms || !Array.isArray(perms)) return []
