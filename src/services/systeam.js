@@ -1,17 +1,18 @@
-import { BASE, ROUTES } from './api'
+import { SYSTEAM } from './api'
 import { request, METHOD } from '@/utils/request'
 
 export const routes = () => {
-  return request(`${BASE}/routes`, METHOD.GET)
+  return request(`${SYSTEAM}/menus/find`, METHOD.GET)
 }
 
-export const insertRoutes = (params) => {
-  return request(`${ROUTES}/insert`, METHOD.POST, params)
+export const operationRoutes = (type, params) => {
+  return request(`${SYSTEAM}/menus/${type}`, METHOD.POST, params)
 }
 
-export const accounts = (params) => {
-  return request(`${BASE}/routes/insert`, METHOD.POST, params)
+export const deleteRoutes = (params) => {
+  return request(`${SYSTEAM}/menus/delete`, METHOD.POST, params)
 }
-export const menus = (params) => {
-  return request(`${BASE}/routes/insert`, METHOD.POST, params)
-}
+
+// export const updateRoutes = (params) => {
+//   return request(`${ROUTES}/update`, METHOD.POST, params)
+// }

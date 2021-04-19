@@ -1,4 +1,4 @@
-import { LOGIN, ROUTES } from '@/services/api'
+import { LOGIN, SYSTEAM } from '@/services/api'
 import { request, METHOD, removeAuthorization } from '@/utils/request'
 
 /**
@@ -15,7 +15,7 @@ export async function login(name, password) {
 }
 
 export async function getRoutesConfig() {
-  return request(ROUTES, METHOD.GET)
+  return request(`${SYSTEAM}/menus/find`, METHOD.GET)
 }
 
 /**

@@ -49,6 +49,9 @@
         <a-button v-auth="`edit`" type="link" @click="handleEdit(record)">
           编辑
         </a-button>
+        <a-button type="link" @click="handleDelete(record)">
+          删除
+        </a-button>
       </span>
     </advance-table>
     <!-- 创建/编辑 -->
@@ -82,7 +85,7 @@
   </div>
 </template>
 <script>
-import { routes, insertRoutes } from '@/services/systeam'
+import { routes, operationRoutes, deleteRoutes } from '@/services/systeam'
 // import routerMap from '@/router/async/router.map'
 // import { parseRoutes } from '@/utils/routerUtil'
 import { toTree } from '@/utils/util'
@@ -180,7 +183,8 @@ export default {
           value: 'add_child'
         }
       ],
-      isShowBtnPerms: true
+      isShowBtnPerms: true,
+      type: 'create'
     }
   },
   mounted() {
@@ -205,21 +209,23 @@ export default {
       this.$refs.form.validate(async valid => {
         if (!valid) return
         this.confirmLoading = true
-        const res = await insertRoutes(this.form)
-        const { code, message, data } = res.data
+        const res = await operationRoutes(this.type, this.form)
+        const { code, message } = res.data
         if (code !== 0) {
           this.$message.error(message)
           return
         }
-        console.log(data)
         this.confirmLoading = false
         this.visible = false
-        this.$message.success('提交成功')
+        this.$message.success('创建成功')
+        this.getRoutes()
       })
     },
     // 创建
     handleCreate() {
       this.reset()
+      this.type = 'create'
+      this.form._id && delete this.form._id
       this.visible = true
       this.title = '创建菜单'
       this.form.pid = 0
@@ -231,16 +237,28 @@ export default {
       this.visible = true
       this.isShowBtnPerms = true
       this.title = `创建 ${item.name} 子集菜单`
-      this.form.pid = item.id
+      this.form.pid = item._id
     },
     // 编辑
     handleEdit(item) {
+      this.type = 'update'
+      this.form._id = item._id
       this.visible = true
       this.isShowBtnPerms = item.pid !== 0
       this.title = item.name
       this.$nextTick(() => {
         this.form = { ...item }
       })
+    },
+    async handleDelete(item) {
+      const res = await deleteRoutes({ _id: item._id })
+      const { code, message } = res.data
+      if (code !== 0) {
+        this.$message.error(message)
+        return
+      }
+      this.$message.success('删除成功')
+      this.getRoutes()
     },
     // table组件事件
     onPageChange() {},

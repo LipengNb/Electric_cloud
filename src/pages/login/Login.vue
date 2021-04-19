@@ -101,13 +101,13 @@ export default {
     },
     afterLogin(res) {
       this.logging = false
-      const loginRes = res.data
-      if (loginRes.code === 0) {
-        const { user, permissions, roles } = loginRes.data
+      const { code, data, message } = res.data
+      if (code === 0) {
+        const { user, permissions, roles, token, expireAt } = data
         this.setUser(user)
         this.setPermissions(permissions)
         this.setRoles(roles)
-        setAuthorization({ token: loginRes.data.token, expireAt: new Date(loginRes.data.expireAt) })
+        setAuthorization({ token: token, expireAt: new Date(expireAt) })
         // 获取路由配置
         getRoutesConfig().then(result => {
           const routesConfig = [
@@ -118,10 +118,10 @@ export default {
           ]
           loadRoutes(routesConfig)
           this.$router.push('/dashboard')
-          this.$message.success(loginRes.message, 3)
+          this.$message.success(message, 3)
         })
       } else {
-        this.error = loginRes.message
+        this.error = message
       }
     }
   }
