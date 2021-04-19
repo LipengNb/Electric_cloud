@@ -234,6 +234,7 @@ export default {
     // 添加子集
     handleAddChild(item) {
       this.reset()
+      this.type = 'create'
       this.visible = true
       this.isShowBtnPerms = true
       this.title = `创建 ${item.name} 子集菜单`
