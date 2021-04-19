@@ -53,7 +53,7 @@
     </advance-table>
     <!-- 创建/编辑 -->
     <Modal :visible.sync="visible" :title="title" @submit="handleSubmit">
-      <a-form-model ref="menuForm" :model="form" :rules="rules" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
+      <a-form-model ref="form" :model="form" :rules="rules" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
         <a-form-model-item label="菜单标题" prop="name">
           <a-input v-model="form.name" placeholder="输入标题" />
         </a-form-model-item>
@@ -82,7 +82,7 @@
   </div>
 </template>
 <script>
-import { routes } from '@/services/systeam'
+import { routes, insertRoutes } from '@/services/systeam'
 // import routerMap from '@/router/async/router.map'
 // import { parseRoutes } from '@/utils/routerUtil'
 import { toTree } from '@/utils/util'
@@ -154,7 +154,10 @@ export default {
         btn_perms: [],
         enable: true
       },
-      rules: {},
+      rules: {
+        name: { required: true, message: '请输入标题名称' },
+        router: { required: true, message: '请输入路由名称' }
+      },
       btns: [
         {
           label: '创建',
@@ -199,16 +202,19 @@ export default {
     },
     // 提交
     handleSubmit() {
-      this.$refs.form.validate(valid => {
+      this.$refs.form.validate(async valid => {
         if (!valid) return
         this.confirmLoading = true
-        console.log(JSON.parse(JSON.stringify(this.form)))
-        setTimeout(() => {
-          this.confirmLoading = false
-          this.visible = false
-          this.$message.success('提交成功')
-        }, 2000)
-        // console.log(this.form)
+        const res = await insertRoutes(this.form)
+        const { code, message, data } = res.data
+        if (code !== 0) {
+          this.$message.error(message)
+          return
+        }
+        console.log(data)
+        this.confirmLoading = false
+        this.visible = false
+        this.$message.success('提交成功')
       })
     },
     // 创建
