@@ -1,4 +1,4 @@
-import { LOGIN, SYSTEAM } from '@/services/api'
+import { USER } from '@/services/api'
 import { request, METHOD, removeAuthorization } from '@/utils/request'
 
 /**
@@ -8,14 +8,14 @@ import { request, METHOD, removeAuthorization } from '@/utils/request'
  * @returns {Promise<AxiosResponse<T>>}
  */
 export async function login(name, password) {
-  return request(`${LOGIN}`, METHOD.POST, {
+  return request(`${USER}/login`, METHOD.POST, {
     account: name,
     password: password
   })
 }
 
-export async function getRoutesConfig() {
-  return request(`${SYSTEAM}/menus/find`, METHOD.GET)
+export async function getMenus() {
+  return request(`${USER}/user/menus`, METHOD.GET)
 }
 
 /**
@@ -30,5 +30,5 @@ export function logout() {
 export default {
   login,
   logout,
-  getRoutesConfig
+  getMenus
 }

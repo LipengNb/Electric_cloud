@@ -18,7 +18,7 @@
         onChange: onPageChange,
         onShowSizeChange: onSizeChange,
       }"
-      @refresh="getRoutes"
+      @refresh="getMenus"
     >
       <template slot="operation">
         <a-button v-auth="`add`" icon="plus" @click="handleCreate">创建</a-button>
@@ -37,7 +37,7 @@
         <a-icon v-else type="minus" />
       </span>
       <span slot="enable" slot-scope="{ record }">
-        <a-switch checked-children="显" un-checked-children="隐" :checked="!record.invisible" />
+        <a-switch checked-children="显" un-checked-children="隐" :checked="record.enable" @click="onChangeSwitch(record)" />
       </span>
       <span slot="time">
         2021-04-14
@@ -85,9 +85,7 @@
   </div>
 </template>
 <script>
-import { routes, operationRoutes, deleteRoutes } from '@/services/systeam'
-// import routerMap from '@/router/async/router.map'
-// import { parseRoutes } from '@/utils/routerUtil'
+import { Menus, operationMenus, deleteMenus } from '@/services/systeam'
 import { toTree } from '@/utils/util'
 import Modal from '@/components/modal/modal'
 import AdvanceTable from '@/components/table/advance/AdvanceTable'
@@ -101,7 +99,8 @@ export default {
       columns: [
         {
           title: '菜单标题',
-          dataIndex: 'name'
+          dataIndex: 'name',
+          width: '200px'
         },
         {
           title: '图标',
@@ -121,7 +120,8 @@ export default {
         },
         {
           title: '按钮权限',
-          scopedSlots: { customRender: 'btn_perms' }
+          scopedSlots: { customRender: 'btn_perms' },
+          width: '400px'
         },
         {
           title: '是否可见',
@@ -188,14 +188,14 @@ export default {
     }
   },
   mounted() {
-    this.getRoutes()
+    this.getMenus()
   },
   methods: {
     // 表格数据
-    async getRoutes() {
+    async getMenus() {
       const table = this.table
       table.loading = true
-      const res = await routes()
+      const res = await Menus()
       table.loading = false
       const { code, data, message } = res.data
       if (code !== 0) {
@@ -204,21 +204,27 @@ export default {
       }
       table.data = toTree(data)
     },
+    // 操作接口
+    async operationRequest() {
+      const res = await operationMenus(this.type, this.form)
+      const { code, message } = res.data
+      if (code !== 0) {
+        this.$message.error(message)
+        return false
+      }
+      this.getMenus()
+      return true
+    },
     // 提交
     handleSubmit() {
       this.$refs.form.validate(async valid => {
         if (!valid) return
         this.confirmLoading = true
-        const res = await operationRoutes(this.type, this.form)
-        const { code, message } = res.data
-        if (code !== 0) {
-          this.$message.error(message)
-          return
-        }
+        const res = await this.operationRequest()
+        if (!res) return
         this.confirmLoading = false
         this.visible = false
         this.$message.success('创建成功')
-        this.getRoutes()
       })
     },
     // 创建
@@ -230,6 +236,17 @@ export default {
       this.title = '创建菜单'
       this.form.pid = 0
       this.isShowBtnPerms = false
+    },
+    // 是否可见
+    onChangeSwitch(item) {
+      // this.type = 'update'
+      // this.form._id = item._id
+      // this.$nextTick(() => {
+      //   item.enable = !item.enable
+      //   this.form = { ...item }
+      // })
+      // console.log(this.form)
+      // this.operationRequest()
     },
     // 添加子集
     handleAddChild(item) {
@@ -245,21 +262,22 @@ export default {
       this.type = 'update'
       this.form._id = item._id
       this.visible = true
-      this.isShowBtnPerms = item.pid !== 0
+      this.isShowBtnPerms = item.pid !== '0'
       this.title = item.name
       this.$nextTick(() => {
         this.form = { ...item }
       })
     },
+    // 删除
     async handleDelete(item) {
-      const res = await deleteRoutes({ _id: item._id })
+      const res = await deleteMenus({ _id: item._id })
       const { code, message } = res.data
       if (code !== 0) {
         this.$message.error(message)
         return
       }
       this.$message.success('删除成功')
-      this.getRoutes()
+      this.getMenus()
     },
     // table组件事件
     onPageChange() {},

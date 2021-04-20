@@ -30,6 +30,7 @@
       </div>
       <!-- v-bind="{...$props, columns: visibleColumns, title: undefined, loading: false}" -->
       <a-table
+        bordered
         :columns="visibleColumns"
         :data-source="dataSource"
         :pagination="pagination"

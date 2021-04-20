@@ -117,7 +117,7 @@ export default {
     return {
       table: table,
       title: '创建角色',
-      visible: true,
+      visible: false,
       rowSelection: {
         type: 'checkbox',
         selectedRowKeys: [],
@@ -172,8 +172,19 @@ export default {
   },
   watch: {
     'rowSelection.selectedRowKeys'(selected) {
+      const checkedMenus = this.originMenuData.filter(item => {
+        if (selected.includes(item._id)) {
+          if (item.btn_perms && item.btn_perms.length > 0) {
+            this.$set(item, 'selected', item.btn_perms)
+          }
+          return item
+        } else {
+          if (item.btn_perms && item.btn_perms.length > 0) {
+            this.$set(item, 'selected', [])
+          }
+        }
+      })
       const arr = []
-      const checkedMenus = this.originMenuData.filter(item => selected.includes(item._id))
       checkedMenus.forEach(item => {
         arr.push({
           menu_id: item._id,

@@ -65,7 +65,7 @@
 
 <script>
 import CommonLayout from '@/layouts/CommonLayout'
-import { login, getRoutesConfig } from '@/services/user'
+import { login, getMenus } from '@/services/user'
 import { setAuthorization } from '@/utils/request'
 import { loadRoutes } from '@/utils/routerUtil'
 import { mapMutations } from 'vuex'
@@ -103,26 +103,30 @@ export default {
       this.logging = false
       const { code, data, message } = res.data
       if (code === 0) {
-        const { user, permissions, roles, token, expireAt } = data
-        this.setUser(user)
-        this.setPermissions(permissions)
-        this.setRoles(roles)
-        setAuthorization({ token: token, expireAt: new Date(expireAt) })
+        const { userInfo, token } = data
+        this.setUser(userInfo.user)
+        this.setPermissions(userInfo.permissions)
+        setAuthorization({ token: token })
+        // this.setRoles(userInfo.roles)
+        // setAuthorization({ token: token }, expireAt: new Date(expireAt))
         // 获取路由配置
-        getRoutesConfig().then(result => {
-          const routesConfig = [
-            {
-              router: 'root',
-              children: toTree(result.data.data)
-            }
-          ]
-          loadRoutes(routesConfig)
-          this.$router.push('/dashboard')
-          this.$message.success(message, 3)
-        })
+        this.handleMenus(message)
       } else {
         this.error = message
       }
+    },
+    async handleMenus(message) {
+      const res = await getMenus()
+      const { data } = res.data
+      const routesConfig = [
+        {
+          router: 'root',
+          children: toTree(data)
+        }
+      ]
+      loadRoutes(routesConfig)
+      this.$router.push('/dashboard')
+      this.$message.success(message, 3)
     }
   }
 }
