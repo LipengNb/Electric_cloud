@@ -2,20 +2,34 @@ export default {
   methods: {
     // 全选
     onSelectAll(selected) {
+      const _this = this
       const selection = this.rowSelection
+      const menusData = this.menusData
       if (selected) {
-        const menusData = this.menusData
         const arr = []
         setVal(menusData, arr)
         selection.selectedRowKeys = arr
       } else {
         selection.selectedRowKeys = []
+        setUnVal(menusData, [])
       }
+      // 设置全选
       function setVal(list, arr) {
         list.forEach(v => {
           arr.push(v._id)
+          _this.$set(v, 'selected', v.btn_perms)
           if (v.children) {
             setVal(v.children, arr)
+          }
+        })
+      }
+      // 取消全选
+      function setUnVal(list, arr) {
+        list.forEach(v => {
+          console.log(v)
+          _this.$set(v, 'selected', [])
+          if (v.children) {
+            setUnVal(v.children, arr)
           }
         })
       }

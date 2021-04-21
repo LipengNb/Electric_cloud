@@ -6,6 +6,7 @@
       title="角色列表"
       :loading="table.loading"
       header-operation="operation"
+      :selected-rows.sync="selectedRows"
       row-key="router"
       :pagination="{
         current: table.page,
@@ -184,7 +185,8 @@ export default {
         }
       ],
       isShowBtnPerms: true,
-      type: 'create'
+      type: 'create',
+      selectedRows: []
     }
   },
   mounted() {
@@ -288,7 +290,7 @@ export default {
       return btns.filter(item => perms.includes(item.value))
     },
     reset() {
-      this.$refs.menuForm && this.$refs.menuForm.resetFields()
+      this.$refs.form && this.$refs.form.resetFields()
     }
   }
 }

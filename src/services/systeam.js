@@ -12,9 +12,16 @@ export const deleteMenus = (params) => {
   return request(`${SYSTEAM}/menus/delete`, METHOD.POST, params)
 }
 // 角色管理
+export const getRoles = () => {
+  return request(`${SYSTEAM}/roles/find`, METHOD.GET)
+}
 export const createRoles = (params) => {
   return request(`${SYSTEAM}/roles/create`, METHOD.POST, params)
 }
-export const getRoles = () => {
-  return request(`${SYSTEAM}/roles/find`, METHOD.GET)
+// 账号管理
+export const getAccounts = () => {
+  return request(`${SYSTEAM}/accounts/find`, METHOD.GET)
+}
+export const createAccounts = (params) => {
+  return request(`${SYSTEAM}/accounts/create`, METHOD.POST, params)
 }

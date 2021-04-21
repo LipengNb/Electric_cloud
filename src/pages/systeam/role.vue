@@ -26,30 +26,17 @@
       <span slot="enable" slot-scope="{ record }">
         <a-switch :checked="record.enable" @change="onChange(record)" />
       </span>
-      <span slot="menus" slot-scope="{ record }">
-        <a-tree
-          class="draggable-tree"
-          draggable
-          :selectable="false"
-          :replace-fields="{
-            title: 'name'
-          }"
-          :tree-data="filterMenus(record.menus)"
-        >
-          <span slot="custom" slot-scope="{ dataRef }">
-            <a-icon :type="dataRef.icon" />
-            {{ dataRef.name }}
-          </span>
-        </a-tree>
-      </span>
       <span slot="action" slot-scope="{ record }">
         <a style="margin-right: 8px" @click="handleEdit(record)">
           <a-icon type="edit" /> 编辑
         </a>
       </span>
     </advance-table>
-    <modal :visible.sync="visible" modal-width="900px" @submit="handleSubmit">
+    <modal :visible.sync="visible" :title="title" modal-width="900px" @submit="handleSubmit">
       <a-form-model ref="form" :model="form" :rules="rules">
+        <a-form-model-item label="角色标识" prop="role_name">
+          <a-input v-model="form.role_name" placeholder="输入角色标识" />
+        </a-form-model-item>
         <a-form-model-item label="角色名称" prop="name">
           <a-input v-model="form.name" placeholder="输入角色名称" />
         </a-form-model-item>
@@ -92,12 +79,12 @@ export default {
     const table = {
       columns: [
         {
-          title: '角色名称',
-          dataIndex: 'name'
+          title: '角色标识',
+          dataIndex: 'role_name'
         },
         {
-          title: '访问权限',
-          scopedSlots: { customRender: 'menus' }
+          title: '角色名称',
+          dataIndex: 'name'
         },
         {
           title: '状态',
@@ -117,7 +104,7 @@ export default {
     return {
       table: table,
       title: '创建角色',
-      visible: true,
+      visible: false,
       rowSelection: {
         type: 'checkbox',
         selectedRowKeys: [],
@@ -139,11 +126,13 @@ export default {
       menusData: [],
       confirmLoading: false,
       form: {
+        role_name: '',
         name: '',
         menus: [],
         enable: true
       },
       rules: {
+        role_name: { required: true, message: '请输入角色标识' },
         name: { required: true, message: '请输入角色名称' }
       },
       btns: [
@@ -177,6 +166,9 @@ export default {
       checkedMenus.forEach(item => {
         arr.push({
           menu_id: item._id,
+          router: item.router,
+          name: item.name,
+          pid: item.pid,
           btn_selected: item.selected ? item.selected : []
         })
       })
@@ -188,6 +180,7 @@ export default {
     this.getRoles()
   },
   methods: {
+    // 获取角色列表
     async getRoles() {
       const res = await getRoles()
       const { code, data, message } = res.data
@@ -197,7 +190,7 @@ export default {
       }
       this.table.data = data
     },
-    // 获取当前用户的菜单目录
+    // 获取菜单目录
     async getMenus() {
       const res = await getMenus()
       const { code, data, message } = res.data
@@ -215,7 +208,6 @@ export default {
         this.$message.warning(`请先选择【${item.name}】菜单`)
         item.selected = []
       }
-      console.log(item.selected)
       this.form.menus.forEach(menu => {
         if (menu.menu_id === item._id) {
           menu.btn_selected = item.selected
@@ -223,14 +215,23 @@ export default {
       })
     },
     // 修改
-    handleEdit(data) {
+    handleEdit(item) {
       this.visible = true
-      console.log(data)
+      this.title = '编辑角色'
+      this.form._id = item._id
+      const selected = this.rowSelection
+      this.$nextTick(() => {
+        this.form = { ...item }
+        selected.selectedRowKeys = item.menus.map(v => v.menu_id)
+        this.setCheckbox(this.menusData, item)
+      })
     },
     // 创建
     handleCreate() {
+      this.reset()
       this.visible = true
-      console.log('创建表格')
+      this.title = '创建角色'
+      this.form._id && delete this.form._id
     },
     // 提交
     handleSubmit() {
@@ -241,51 +242,43 @@ export default {
         if (!res) return
         this.confirmLoading = false
         this.visible = false
+        this.getRoles()
         this.$message.success('创建成功')
       })
-    },
-    onCheck(keys, checks) {
-      console.log('keys', keys)
-      console.log('checks', checks)
-    },
-    filterMenus(menus) {
-      if (menus) {
-        const ids = menus.map(item => item.menu_id)
-        const rolesMenus = this.originMenuData.filter(item => ids.includes(item._id))
-        const menuList = rolesMenus.map(item => {
-          return {
-            _id: item._id,
-            router: item.router,
-            name: item.name,
-            pid: item.pid,
-            icon: item.icon
-          }
-        })
-        const treeMenus = toTree(menuList)
-        this.deepMenus(treeMenus)
-        return treeMenus
-      }
-      // this.originMenuData.filter(item => {
-      //   if (menus.menus.map(menu => menu.menu_id).includes(item._id)) {
-      //     console.log(item)
-      //   }
-      // })
     },
     // table组件事件
     onPageChange() {},
     onSizeChange() {},
-    deepMenus(menus) {
-      menus.forEach((item) => {
-        if (item.children && item.children.length) {
-          this.deepMenus(item.children)
+    setCheckbox(menus, item) {
+      menus.forEach((v) => {
+        if (v.children && v.children.length) {
+          this.setCheckbox(v.children, item)
+        } else {
+          const index = item.menus.findIndex(c => c.menu_id === v._id)
+          if (index !== -1) {
+            v.selected = item.menus[index].btn_selected
+          }
         }
-        item.scopedSlots = { title: 'custom' }
       })
     },
     match(perms) {
       const btns = this.btns
       if (!perms || !Array.isArray(perms)) return []
       return btns.filter(item => perms.includes(item.value))
+    },
+    reset() {
+      this.rowSelection.selectedRowKeys = []
+      this.$refs.form && this.$refs.form.resetFields()
+      this.unSetCheckbox(this.menusData)
+    },
+    unSetCheckbox(menus) {
+      menus.forEach((v) => {
+        if (v.children && v.children.length) {
+          this.unSetCheckbox(v.children)
+        } else {
+          v.selected = []
+        }
+      })
     }
   }
 }

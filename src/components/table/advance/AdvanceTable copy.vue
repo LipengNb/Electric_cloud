@@ -1,33 +1,35 @@
 <template>
   <div :id="id" ref="table" class="advanced-table">
     <a-spin :spinning="loading">
-      <div :class="['header-bar', size]">
-        <div class="info">
-          <template v-if="selectedRows && selectedRows.length">
-            <a-icon type="info-circle" /> 已选 <span>{{ selectedRows.length }}</span> 项 <a class="clear" @click="onClear">清空</a>
-          </template>
+      <a-alert type="info" class="a-alert">
+        <div slot="message" :class="['header-bar', size]">
+          <div class="info">
+            <a-icon type="info-circle" />
+            已选 <span>0</span> 项 <a class="clear" @click="onClear">清空</a>
+          </div>
+          <div class="actions">
+            <!-- 表格头部操作 -->
+            <a-button-group v-if="headerOperation">
+              <slot :name="headerOperation" />
+            </a-button-group>
+            <a-tooltip title="刷新">
+              <a-icon class="action" :type="loading ? 'loading' : 'reload'" @click="refresh" />
+            </a-tooltip>
+            <action-size v-model="sSize" class="action" />
+            <a-tooltip title="列配置">
+              <action-columns :columns="columns" class="action">
+                <template v-for="slot in slots" :slot="slot">
+                  <slot :name="slot" />
+                </template>
+              </action-columns>
+            </a-tooltip>
+            <a-tooltip title="全屏">
+              <a-icon class="action" :type="fullScreen ? 'fullscreen-exit' : 'fullscreen'" @click="toggleScreen" />
+            </a-tooltip>
+          </div>
         </div>
-        <div class="actions">
-          <!-- 表格头部操作 -->
-          <a-button-group v-if="headerOperation">
-            <slot :name="headerOperation" />
-          </a-button-group>
-          <a-tooltip title="刷新">
-            <a-icon class="action" :type="loading ? 'loading' : 'reload'" @click="refresh" />
-          </a-tooltip>
-          <action-size v-model="sSize" class="action" />
-          <a-tooltip title="列配置">
-            <action-columns :columns="columns" class="action">
-              <template v-for="slot in slots" :slot="slot">
-                <slot :name="slot" />
-              </template>
-            </action-columns>
-          </a-tooltip>
-          <a-tooltip title="全屏">
-            <a-icon class="action" :type="fullScreen ? 'fullscreen-exit' : 'fullscreen'" @click="toggleScreen" />
-          </a-tooltip>
-        </div>
-      </div>
+      </a-alert>
+      <!-- v-bind="{...$props, columns: visibleColumns, title: undefined, loading: false}" -->
       <a-table
         bordered
         :columns="visibleColumns"
@@ -55,13 +57,11 @@
 </template>
 
 <script>
-import mixins from '@/mixins/fullScreen'
 import ActionSize from '@/components/table/advance/ActionSize'
 import ActionColumns from '@/components/table/advance/ActionColumns'
 export default {
   name: 'AdvanceTable',
   components: { ActionColumns, ActionSize },
-  mixins: [mixins],
   props: {
     tableLayout: { type: String, default: '' },
     bordered: Boolean,
@@ -71,10 +71,6 @@ export default {
     dataSource: { type: Array, default: () => [] },
     defaultExpandAllRows: { type: Boolean, default: false },
     expandedRowKeys: { type: Array, default: () => [] },
-    selectedRows: {
-      type: Array,
-      default: () => []
-    },
     // eslint-disable-next-line vue/require-default-prop
     expandedRowRender: [Function],
     expandIcon: { type: Function, default: () => {} },
@@ -135,11 +131,6 @@ export default {
     },
     visibleColumns() {
       return this.columns.filter(col => col.visible)
-    },
-    selectedRowKeys() {
-      return this.selectedRows.map(record => {
-        return (typeof this.rowKey === 'function') ? this.rowKey(record) : record[this.rowKey]
-      })
     }
   },
   watch: {
@@ -147,11 +138,59 @@ export default {
       (!bool && this.isInit) && this.$message.success('刷新成功!')
     }
   },
+  created() {
+    this.addListener()
+  },
+  beforeDestroy() {
+    this.removeListener()
+  },
   methods: {
     // 表格数据刷新
     refresh() {
       this.isInit++
       this.$emit('refresh', this.conditions)
+    },
+    // 全屏切换
+    toggleScreen() {
+      if (this.fullScreen) {
+        this.outFullScreen()
+      } else {
+        this.inFullScreen()
+      }
+    },
+    // 进入全屏
+    inFullScreen() {
+      const el = this.$refs.table
+      el.classList.add('beauty-scroll')
+      if (el.requestFullscreen) {
+        el.requestFullscreen()
+        return true
+      } else if (el.webkitRequestFullScreen) {
+        el.webkitRequestFullScreen()
+        return true
+      } else if (el.mozRequestFullScreen) {
+        el.mozRequestFullScreen()
+        return true
+      } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen()
+        return true
+      }
+      this.$message.warn('对不起，您的浏览器不支持全屏模式')
+      el.classList.remove('beauty-scroll')
+      return false
+    },
+    // 推出全屏
+    outFullScreen() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      } else if (document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen()
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen()
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen()
+      }
+      this.$refs.table.classList.remove('beauty-scroll')
     },
     onExpandedRowsChange(expandedRows) {
       this.$emit('expandedRowsChange', expandedRows)
@@ -162,17 +201,26 @@ export default {
     onExpand(expanded, record) {
       this.$emit('expand', expanded, record)
     },
+    addListener() {
+      document.addEventListener('fullscreenchange', this.fullScreenListener)
+      document.addEventListener('webkitfullscreenchange', this.fullScreenListener)
+      document.addEventListener('mozfullscreenchange', this.fullScreenListener)
+      document.addEventListener('msfullscreenchange', this.fullScreenListener)
+    },
+    removeListener() {
+      document.removeEventListener('fullscreenchange', this.fullScreenListener)
+      document.removeEventListener('webkitfullscreenchange', this.fullScreenListener)
+      document.removeEventListener('mozfullscreenchange', this.fullScreenListener)
+      document.removeEventListener('msfullscreenchange', this.fullScreenListener)
+    },
+    fullScreenListener(e) {
+      if (e.target.id === this.id) {
+        this.fullScreen = !this.fullScreen
+      }
+    },
     updateSelect(selectedRowKeys, selectedRows) {
       this.$emit('update:selectedRows', selectedRows)
       this.$emit('selectedRowChange', selectedRowKeys, selectedRows)
-    },
-    toggleScreen() {
-      const el = this.$refs.table
-      if (this.fullScreen) {
-        this.$_outFullScreen(el)
-      } else {
-        this.$_inFullScreen(el)
-      }
     },
     onClear() {
       this.updateSelect([], [])
@@ -190,7 +238,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
     &.middle{
       padding: 12px 16px;
     }

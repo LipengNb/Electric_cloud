@@ -1,5 +1,5 @@
 <template>
-  <common-layout>
+  <common-layout :style="login_wrap_bg">
     <div class="top">
       <div class="header">
         <svg width="60px" height="30" viewBox="0 0 169 141" style="vertical-align: middle" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -26,39 +26,26 @@
         <span class="title">{{ systemName }}</span>
       </div>
     </div>
-    <div class="login">
-      <div class="title">非侵入式负荷检测</div>
-      <a-form :form="form" @submit="onSubmit">
-        <a-form-item class="form-inout-item">
-          <a-input
-            v-decorator="['name', {rules: [{ required: true, message: '请输入账户名', whitespace: true}]}]"
-            autocomplete="autocomplete"
-            size="large"
-            placeholder="请输入用户名"
-          >
-            <a-icon slot="prefix" type="user" two-tone-color="#fff" />
+    <div class="login-wrap" :style="login_bg">
+      <div class="title">登录</div>
+      <a-form-model ref="form" :model="form" :rules="rules">
+        <a-form-model-item prop="account">
+          <a-input v-model="form.account" size="large" placeholder="请输入用户名">
+            <a-icon slot="prefix" type="user" style="font-size: 18px; color: #00FFFC" />
           </a-input>
-        </a-form-item>
-        <a-form-item class="form-inout-item">
-          <a-input
-            v-decorator="['password', {rules: [{ required: true, message: '请输入密码', whitespace: true}]}]"
-            size="large"
-            placeholder="请输入密码"
-            autocomplete="autocomplete"
-            auto-complete="new-password"
-            type="password"
-          >
-            <a-icon slot="prefix" type="lock" />
+        </a-form-model-item>
+        <a-form-model-item prop="password">
+          <a-input v-model="form.password" size="large" placeholder="请输入密码" autocomplete="autocomplete" auto-complete="new-password" type="password">
+            <a-icon slot="prefix" type="lock" style="font-size: 18px; color: #00FFFC" />
           </a-input>
-        </a-form-item>
+        </a-form-model-item>
         <div>
-          <a-checkbox :checked="true">自动登录</a-checkbox>
           <a style="float: right">忘记密码</a>
         </div>
-        <a-form-item>
-          <a-button :loading="logging" block class="btn-login" size="large" html-type="submit" type="primary">登录</a-button>
-        </a-form-item>
-      </a-form>
+        <a-form-model-item>
+          <a-button :loading="loading" block class="btn-login" size="large" type="primary" @click="handleSubmit">登录</a-button>
+        </a-form-model-item>
+      </a-form-model>
     </div>
   </common-layout>
 </template>
@@ -76,9 +63,18 @@ export default {
   components: { CommonLayout },
   data() {
     return {
-      logging: false,
+      loading: false,
       error: '',
-      form: this.$form.createForm(this)
+      form: {
+        account: '',
+        password: ''
+      },
+      rules: {
+        account: { required: true, message: '请输入用户名' },
+        password: { required: true, message: '请输入用户密码' }
+      },
+      login_wrap_bg: { backgroundImage: 'url(' + require('@/assets/img/bg.jpg') + ')' },
+      login_bg: { backgroundImage: 'url(' + require('@/assets/img/login.png') + ')' }
     }
   },
   computed: {
@@ -88,32 +84,26 @@ export default {
   },
   methods: {
     ...mapMutations('account', ['setUser', 'setPermissions', 'setRoles']),
-    onSubmit(e) {
-      e.preventDefault()
-      this.form.validateFields((err) => {
-        if (!err) {
-          this.logging = true
-          const name = this.form.getFieldValue('name')
-          const password = this.form.getFieldValue('password')
-          login(name, password).then(this.afterLogin)
+    handleSubmit() {
+      this.$refs.form.validate(async valid => {
+        if (!valid) return
+        this.loading = true
+        const res = await login(this.form.account, this.form.password)
+        this.loading = false
+        const { code, data, message } = res.data
+        if (code !== 0) {
+          this.$message.error(message)
+          return
         }
+        this.setUserInfo(data)
       })
     },
-    afterLogin(res) {
-      this.logging = false
-      const { code, data, message } = res.data
-      if (code === 0) {
-        const { userInfo, token } = data
-        this.setUser(userInfo.user)
-        this.setPermissions(userInfo.permissions)
-        setAuthorization({ token: token })
-        // this.setRoles(userInfo.roles)
-        // setAuthorization({ token: token }, expireAt: new Date(expireAt))
-        // 获取路由配置
-        this.handleMenus(message)
-      } else {
-        this.error = message
-      }
+    setUserInfo(data) {
+      const { userInfo, token } = data
+      this.setUser(userInfo.user)
+      this.setPermissions(userInfo.permissions)
+      setAuthorization({ token: token })
+      this.handleMenus()
     },
     async handleMenus(message) {
       const res = await getMenus()
@@ -126,7 +116,7 @@ export default {
       ]
       loadRoutes(routesConfig)
       this.$router.push('/dashboard')
-      this.$message.success(message, 3)
+      this.$message.success('登录成功！', 3)
     }
   }
 }
@@ -135,6 +125,7 @@ export default {
 <style lang="less" scoped>
   .common-layout{
     color: #22ffff;
+    background-size: 100% 100%;
     .top{
       text-align: center;
       .header {
@@ -161,13 +152,12 @@ export default {
         }
       }
     }
-    .login{
+    .login-wrap{
       width: 368px;
       margin: 0 auto;
       padding: 24px 40px;
       box-sizing: content-box;
-      border: 1px solid #22ffff;
-      background-color: rgba(11, 33, 100, .5);
+      background-size: 100% 100%;
       border-radius: 8px;
       color: #fff;
       @media screen and (max-width: 576px) {
@@ -184,38 +174,44 @@ export default {
         margin-bottom: 24px;
       }
       .form-inout-item{
-        // &::after{
-        //   content: '';
-        //   width: 10px;
-        //   height: 10px;
-        //   position: absolute;
-        //   right: 0;
-        //   bottom: 1px;
-        //   z-index: 1;
-        //   border-right: 1px solid #22ffff;
-        //   border-bottom: 1px solid #22ffff;
-        // }
-        // &::before{
-        //   content: '';
-        //   width: 10px;
-        //   height: 10px;
-        //   position: absolute;
-        //   left: 0;
-        //   top: 0;
-        //   z-index: 1;
-        //   border-top: 1px solid #22ffff;
-        //   border-left: 1px solid #22ffff;
-        // }
+        &::after{
+          content: '';
+          width: 10px;
+          height: 10px;
+          position: absolute;
+          right: 0;
+          bottom: 1px;
+          z-index: 1;
+          border-right: 1px solid #22ffff;
+          border-bottom: 1px solid #22ffff;
+        }
+        &::before{
+          content: '';
+          width: 10px;
+          height: 10px;
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 1;
+          border-top: 1px solid #22ffff;
+          border-left: 1px solid #22ffff;
+        }
       }
       /deep/.ant-input{
         border: none;
         background: transparent;
-        background-image: linear-gradient(rgba(255, 255, 255, .2), rgba(255, 255, 255, .1), rgba(255, 255, 255, .2))
+        padding-left: 42px;
+        background-image: linear-gradient(rgba(255, 255, 255, .2), rgba(255, 255, 255, .1), rgba(255, 255, 255, .2));
+        color: #22ffff;
+      }
+      /deep/::-webkit-input-placeholder{
+        color: #86F0FF;
       }
       .btn-login{
         margin-top: 30px;
         font-size: 20px;
         font-weight: bold;
+        border: none;
         background-image: linear-gradient(to right, #005efe, #0587eb);
         color: #fff !important;
       }

@@ -6,7 +6,7 @@
       title="角色列表"
       :loading="table.loading"
       header-operation="operation"
-      row-key="id"
+      row-key="_id"
       :pagination="{
         current: table.page,
         pageSize: table.pageSize,
@@ -27,7 +27,7 @@
         {{ record.gender === 'woman' ? '女' : '男' }}
       </template>
       <span slot="enable" slot-scope="{ record }">
-        <a-switch checked-children="显" un-checked-children="隐" :checked="!record.enable" />
+        <a-switch checked-children="显" un-checked-children="隐" :checked="record.enable" />
       </span>
       <span slot="time">
         2021-04-14
@@ -50,10 +50,13 @@
         <a-form-model-item label="账号" prop="account">
           <a-input v-model="form.account" placeholder="输入账号" />
         </a-form-model-item>
+        <a-form-model-item label="密码" prop="password">
+          <a-input v-model="form.password" placeholder="输入密码" />
+        </a-form-model-item>
         <a-form-model-item label="角色名称" prop="role_name">
           <a-select v-model="form.role_name" placeholder="选择角色">
-            <a-select-option v-for="item in roles" :key="item" :value="item">
-              {{ item }}
+            <a-select-option v-for="item in roles" :key="item._id" :value="item._id">
+              {{ item.name }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
@@ -80,7 +83,7 @@
   </div>
 </template>
 <script>
-import { accounts } from '@/services/systeam'
+import { getRoles, getAccounts, createAccounts } from '@/services/systeam'
 import AdvanceTable from '@/components/table/advance/AdvanceTable'
 export default {
   components: {
@@ -139,27 +142,37 @@ export default {
       confirmLoading: false,
       form: {
         account: '',
+        password: '',
         role_name: undefined,
         nickname: '',
         gender: 'woman',
         phone: '',
         email: '',
-        create_time: '',
         enable: true
       },
       rules: {},
-      roles: ['admin', 'service', 'user']
+      roles: []
 
     }
   },
   mounted() {
+    this.getRoles()
     this.getAccounts()
   },
   methods: {
+    async getRoles() {
+      const res = await getRoles()
+      const { code, data, message } = res.data
+      if (code !== 0) {
+        this.$message.error(message)
+        return
+      }
+      this.roles = data
+    },
     async getAccounts() {
       const table = this.table
       table.loading = true
-      const res = await accounts()
+      const res = await getAccounts()
       table.loading = false
       console.log(res)
       const { code, data, message } = res.data
@@ -167,18 +180,24 @@ export default {
         this.$message.error(message)
         return
       }
-      table.data = data.list
+      table.data = data
     },
     handleSubmit() {
-      this.$refs.menuForm.validate(valid => {
+      this.$refs.form.validate(async valid => {
         if (!valid) return
         this.confirmLoading = true
-        setTimeout(() => {
-          this.confirmLoading = false
-          this.visible = false
-          this.$message.success('提交成功')
-        }, 2000)
-        // console.log(this.form)
+        console.log(this.form)
+        const res = await createAccounts(this.form)
+        this.confirmLoading = false
+        const { code, data, message } = res.data
+        if (code !== 0) {
+          this.$message.error(message)
+          return
+        }
+        this.visible = false
+        this.table.data = data
+        this.$message.success('创建成功')
+        this.getRoles()
       })
     },
     handleCancel() {
